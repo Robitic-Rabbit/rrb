@@ -1,0 +1,44 @@
+{
+  "name": "Robotic Rabbit #12",
+  "description": "The Robotic Rabbit Syndicate is a group of Robotic Rabbits dedicated to fighting crime and protecting their world from evil villains.",
+  "image": "https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png",
+  "dna": "1e203a1e6e08f24a006f8ea9e95cbbabca6dc2be",
+  "edition": 12,
+  "date": 1686677106000,
+  "nft_type": "og-mint",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Green"
+    },
+    {
+      "trait_type": "Special Power",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons and Gear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Body",
+      "value": "RebelRed Archer"
+    },
+    {
+      "trait_type": "Skull",
+      "value": "Gray"
+    },
+    {
+      "trait_type": "Head",
+      "value": "MandoMecha Mantle"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "RedRage Gaze"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Golden Spark Grin"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
