@@ -15,12 +15,42 @@ const upload = require('express-fileupload');
 const hre = require("hardhat");
 const { ethers } = require("hardhat");
 const axios = require('axios');
+const AWS = require('aws-sdk');
 
 // Set the limit to 50MB for JSON payloads
 app.use(bodyParser.json({ limit: '50mb' }));
 
 // Set the limit to 50MB for URL-encoded payloads
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+// Configure AWS
+AWS.config.update({
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+    region: 'us-east-1'
+});
+
+const s3 = new AWS.S3();
+
+// Function to upload file to S3
+async function uploadToS3(filePath, tokenId) {
+    try {
+        const fileContent = fs.readFileSync(filePath);
+        const params = {
+            Bucket: 'robotic-rabbit-metadata-live-replica01',
+            Key: `${tokenId}.json`,
+            Body: fileContent,
+            ContentType: 'application/json'
+        };
+
+        const data = await s3.upload(params).promise();
+        console.log(`File uploaded successfully. ${data.Location}`);
+        return data.Location;
+    } catch (error) {
+        console.error('Error uploading to S3:', error);
+        throw error;
+    }
+}
 
 // Use the JWT key
 const pinataSDK = require('@pinata/sdk');
@@ -197,6 +227,11 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
                         // Rename the new file to the original file's name
                         fs.renameSync(newFilePath, savePath);
 
+                        // Upload the updated file to S3
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
+
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
+
                         console.log(`File updated and saved as: ${savePath}`);
                     } catch (error) {
                         console.error('Error processing the JSON file:', error.message);
@@ -366,6 +401,11 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
 
                         // Rename the new file to the original file's name
                         fs.renameSync(newFilePath, savePath);
+
+                        // Upload the updated file to S3
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
+
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
                     } catch (error) {
@@ -581,6 +621,11 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
                         // Rename the new file to the original file's name
                         fs.renameSync(newFilePath, savePath);
 
+                        // Upload the updated file to S3
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
+
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
+
                         console.log(`File updated and saved as: ${savePath}`);
                     } catch (error) {
                         console.error('Error processing the JSON file:', error.message);
@@ -795,6 +840,11 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
 
                         // Rename the new file to the original file's name
                         fs.renameSync(newFilePath, savePath);
+
+                        // Upload the updated file to S3
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
+
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
                     } catch (error) {
