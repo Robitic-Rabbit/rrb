@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "node index.js",
-    "build": "npm install",
+    "build": "npm prune --production",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
