@@ -25,8 +25,7 @@ jobs:
       # Step 4: Decode .env base64 string and restore it
       - name: Decode .env file
         run: |
-          echo "${{ secrets.ENV_BASE64_PROD }}" | base64 --decode > ./apps/api/.env
-          cat ./apps/api/.env
+          echo "${{ secrets.ENV_BASE64 }}" | base64 --decode > .env
 
       # Step 4: Determine Docker Image Tag
       - name: Set Docker image tag
@@ -44,7 +43,7 @@ jobs:
       # Step 5: Build Docker image
       - name: Build Docker image
         run: |
-          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/wolvista-be:${{ steps.docker_tag.outputs.tag }} -f Dockerfile.backend .
+          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }} -f Dockerfile.backend .
 
       # Step 6: Log in to DockerHub using PAT
       - name: Log in to DockerHub
@@ -52,7 +51,7 @@ jobs:
 
       # Step 7: Push Docker image to DockerHub
       - name: Push Docker image to DockerHub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/wolvista-be:${{ steps.docker_tag.outputs.tag }}
+        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
 
       # Step 8: SSH into the VPS and deploy
       - name: Deploy to VPS
@@ -63,11 +62,11 @@ jobs:
           chmod 600 private_key
 
           # SSH into VPS and update the Docker container
-          ssh -i private_key -o StrictHostKeyChecking=no root@148.135.138.234 << 'EOF'
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/wolvista-be:${{ steps.docker_tag.outputs.tag }}
-            docker stop wolvista-be-prod || true
-            docker rm wolvista-be-prod || true
-            docker run -d --name wolvista-be-prod --network wolvista-prod -p 3000 -p 5000 ${{ secrets.DOCKER_HUB_USERNAME }}/wolvista-be:${{ steps.docker_tag.outputs.tag }}
+          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@3.22.42.221 << 'EOF'
+            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
+            docker stop rrs-be || true
+            docker rm rrs-be || true
+            docker run -d --name rrs-be --network rrs-be -p 3001 -p 5000 ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             
             docker image prune -a -f
           EOF
