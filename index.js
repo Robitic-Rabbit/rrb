@@ -394,7 +394,7 @@ async function uploadToS3(filePath, tokenId) {
     try {
         const fileContent = fs.readFileSync(filePath);
         const params = {
-            Bucket: 'robotic-rabbit-metadata-live-replica01',
+            Bucket: 'robotic-rabbit-metadata-live-replica02',
             Key: `${tokenId}.json`,
             Body: fileContent,
             ContentType: 'application/json'
@@ -592,7 +592,7 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica01.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Special Power'; // The trait type to update or add
                         const value = 'None'; // The value provided by the user (can be changed to AK47, AK48, etc.)
@@ -773,7 +773,7 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica01.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Weapons and Gear'; // The trait type to update or add
                         const value = 'None'; // The value provided by the user (can be changed to AK47, AK48, etc.)
@@ -953,7 +953,7 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica01.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Special Power'; // The trait type to update or add
                         const value = weaponList[BURNING_SPECIAL_ID]; // The value provided by the user (can be changed to AK47, AK48, etc.)
@@ -1136,7 +1136,7 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica01.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Weapons and Gear'; // The trait type to update or add
                         const value = weaponList[BURNING_WEAPON_ID]; // The value provided by the user (can be changed to AK47, AK48, etc.)
