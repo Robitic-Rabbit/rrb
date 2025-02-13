@@ -62,7 +62,7 @@ jobs:
           chmod 600 private_key
 
           # SSH into VPS and update the Docker container
-          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@3.129.80.13 << 'EOF'
+          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@44.246.133.131 << 'EOF'
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             docker stop rrs-be || true
             docker rm rrs-be || true
