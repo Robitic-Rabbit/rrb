@@ -378,7 +378,7 @@ const imageMappings = {
         "Blue Gray": "./traits/Skull/Blue Gray.png",
         "Brown": "./traits/Skull/Brown.png",
         "Charcoal Gray": "./traits/Skull/Charcoal Gray.png",
-        "Garnet": "./traits/Skull/Garnet Gray.png",
+        "Garnet": "./traits/Skull/Garnet.png",
         "Gold": "./traits/Skull/Gold.png",
         "Gray": "./traits/Skull/Gray.png",
         "Green": "./traits/Skull/Green.png",
@@ -394,10 +394,29 @@ async function uploadToS3(filePath, tokenId) {
     try {
         const fileContent = fs.readFileSync(filePath);
         const params = {
-            Bucket: 'robotic-rabbit-metadata-live-replica02',
+            Bucket: 'robotic-rabbit-metadata-live-replica04',
             Key: `${tokenId}.json`,
             Body: fileContent,
             ContentType: 'application/json'
+        };
+
+        const data = await s3.upload(params).promise();
+        console.log(`File uploaded successfully. ${data.Location}`);
+        return data.Location;
+    } catch (error) {
+        console.error('Error uploading to S3:', error);
+        throw error;
+    }
+}
+
+async function uploadToS3Img(filePath, tokenId) {
+    try {
+        const fileContent = fs.readFileSync(filePath);
+        const params = {
+            Bucket: 'robotic-rabbit-metadata-live-replica04',
+            Key: `${tokenId}.png`,
+            Body: fileContent,
+            ContentType: 'image/png'
         };
 
         const data = await s3.upload(params).promise();
@@ -479,11 +498,47 @@ async function generateImageFromMetadata(savePath, SELECTED_TOKEN_ID) {
 
         // Merge images
         const finalImage = await mergeImages(imageUrls);
+       // const outputFilePath = `./outputImgs/${SELECTED_TOKEN_ID}.png`;
         const outputFilePath = `./outputImgs/${SELECTED_TOKEN_ID}.png`;
 
         // Save final image
         fs.writeFileSync(outputFilePath, finalImage);
         console.log(`Final image created: ${outputFilePath}`);
+
+        //Transfer to S3 bucket
+        await uploadToS3Img(outputFilePath, SELECTED_TOKEN_ID);
+
+        const url = `./metadata/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+
+        const response = JSON.parse(fs.readFileSync(url, 'utf8'));
+
+        console.log("response.image : " + response.image);
+        response.image = `https://robotic-rabbit-metadata-live-replica04.s3.amazonaws.com/${SELECTED_TOKEN_ID}.png`;
+        console.log(`Updated image URL to: ${response.image}`);
+
+        savePath = `./metadata/${SELECTED_TOKEN_ID}.json`; // Path where you want to save the updated file
+        // Create a new file name
+        const dir = path.dirname(savePath);
+        const baseName = path.basename(savePath, '.json');
+        const newFilePath = path.join(dir, `${baseName}_1.json`);
+
+        // Write updated JSON to a new file
+        fs.writeFileSync(newFilePath, JSON.stringify(response, null, 2));
+
+        // Delete the original file if it exists locally
+        if (fs.existsSync(savePath)) {
+            fs.unlinkSync(savePath);
+        }
+
+        // Rename the new file to the original file's name
+        fs.renameSync(newFilePath, savePath);
+
+
+        await uploadToS3(savePath, SELECTED_TOKEN_ID);
+        console.log(`Final json created: https://robotic-rabbit-metadata-live-replica04.s3.amazonaws.com/${SELECTED_TOKEN_ID}.json`);
+
+
+        //https://robotic-rabbit-collection.s3.amazonaws.com/8.png
 
     } catch (error) {
         console.error("Error processing metadata:", error);
@@ -511,6 +566,313 @@ async function mergeImages(imageUrls) {
 
 //............................................................................//
 
+router.post('/addDrone', cors(corsOptions), async (req, res) => {
+
+    try {
+
+        const resolvedOrNull = await which('npx', { nothrow: true });
+        console.log("resolvedOrNull : " + resolvedOrNull);
+
+        const hardhatresolvedOrNull = await which('hardhat', { nothrow: true });
+        console.log("resolvedOrNull : " + hardhatresolvedOrNull);
+
+        const hardhatresolvedOrNull2 = path.resolve(__dirname, './node_modules/.bin/hardhat');
+
+        // const npxPath = 'C:\\Program Files\\nodejs\\npx.cmd';
+        const npxPath = resolvedOrNull;
+        const hardhatConfigPath = path.resolve(__dirname, './hardhat.config.js');
+
+        //    const isCompiled = fs.existsSync(path.resolve(__dirname, './artifacts'));
+        //   if (!isCompiled) {
+        //       console.log("Contracts are not compiled. Please compile first.");
+        //       return;
+        //   } else {
+        // res.send('Contracts are compiled');
+        const isAvailable = fs.existsSync(path.resolve(__dirname, './scripts/mint_drn.js'));
+        console.log("mint.js available - /mint :" + isAvailable);
+        const deployScriptPath = path.resolve(__dirname, './scripts/');
+
+        console.log("Request body:", req.body); // Debugging the incoming payload
+        let SELECTED_TOKEN_ID = req.body.selectedTokenId_server;
+        let MINTING_SPECIAL = req.body.mintingSpecial_server[0];
+        console.log("SELECTED_TOKEN_ID:", SELECTED_TOKEN_ID);
+        console.log("BURNING_SPECIAL:", MINTING_SPECIAL);
+
+        let chainName;
+        let sNetwork = req.body.selectededNetwork;
+        console.log("sNetwork : " + sNetwork);
+
+        if (req.body.selectededNetwork == '137') {
+            chainName = 'polygonMumbai';
+            console.log("SelectedNetwork" + chainName);
+        }
+
+        if (req.body.selectededNetwork == '5') {
+            chainName = 'goerliTestnet';
+            console.log("SelectedNetwork" + chainName);
+        }
+
+
+        const _RECEIVED_DRONE_VALUE = req.body.RECEIVED_DRONE_VALUE
+        console.log("_RECEIVED_DRONE_VALUE" + _RECEIVED_DRONE_VALUE);
+
+        const childProcess = spawn(npxPath, [
+            hardhatresolvedOrNull2,
+            'run',
+            './scripts/burn_drn.js',
+            '--network',
+            'polygonMumbai'
+        ], {
+            cwd: /*deployScriptPath8*/__dirname,
+            env: {
+                // Pass variables as environment variables
+                CHAIN_ID: req.body.selectededNetwork,
+                USER_ADDRESS: req.body.userAddress_server,
+                _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
+                __RECEIVED_DRONE_VALUE: _RECEIVED_DRONE_VALUE
+            },
+        });
+
+
+        childProcess.on('close', async (code) => {
+            try {
+                if (code === 0) {
+                    console.log("I'm back to prev code");
+            
+                    try {
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; 
+           
+                        const droneTraitType = 'Drone'; // New attribute
+                        let droneValue;
+
+                        if(_RECEIVED_DRONE_VALUE == 39){
+                            droneValue = 'SkyHopper';                            
+                        }else if(_RECEIVED_DRONE_VALUE == 40){
+                            droneValue = 'SpectraFly';
+                        }else if(_RECEIVED_DRONE_VALUE == 41){
+                            droneValue = 'GoldenGlider';
+                        }
+
+            
+                        // Fetch the JSON file from the URL
+                        const response = await axios.get(url);
+                        const jsonData = response.data;
+                        
+                        // Remove "Drone" attribute if it exists
+                        jsonData.attributes = jsonData.attributes.filter(attr => attr.trait_type !== droneTraitType);
+            
+                        // Re-add "Drone" at the end
+                        jsonData.attributes.push({ trait_type: droneTraitType, value: droneValue });
+                        console.log(`Ensured "Drone" is the last attribute: ${droneValue}`);
+            
+                        // Save updated metadata
+                        const savePath = `./metadata/${SELECTED_TOKEN_ID}.json`;
+                        const dir = path.dirname(savePath);
+                        const baseName = path.basename(savePath, '.json');
+                        const newFilePath = path.join(dir, `${baseName}_1.json`);
+            
+                        fs.writeFileSync(newFilePath, JSON.stringify(jsonData, null, 2));
+            
+                        if (fs.existsSync(savePath)) {
+                            fs.unlinkSync(savePath);
+                        }
+                        fs.renameSync(newFilePath, savePath);
+            
+                        console.log(`File updated and saved as: ${savePath}`);
+            
+                        // Generate image based on metadata
+                        await generateImageFromMetadata(savePath, SELECTED_TOKEN_ID);
+            
+                    } catch (error) {
+                        console.error('Error processing the JSON file:', error.message);
+                    }
+            
+                    console.log("Deployment successful");
+                    res.send(`CS_SPOkay`);
+                } else {
+                    console.log("Error during deployment");
+                    res.status(500).send('Error during deployment');
+                }
+            } catch (err) {
+                console.log(err);
+            }
+            
+        });
+
+        // Capture stdout
+        let stdoutData = '';
+        childProcess.stdout.on('data', (data) => {
+            stdoutData += data.toString();
+            console.log("data :" + data.toString()); // Log the output to the console
+        });
+
+        // Log errors
+        childProcess.stderr.on('data', (data) => {
+            console.error('new stderr-deploy:', data.toString());
+        });
+
+        console.log("data" + req.body.totalSupply);
+
+        //  }
+
+
+    } catch (error) {
+        console.error('error:', error);
+        res.status(500).send('Error during deployment');
+        res.send(`networkError`);
+    }
+
+});
+
+router.post('/removeDrone', cors(corsOptions), async (req, res) => {
+
+    try {
+
+        const resolvedOrNull = await which('npx', { nothrow: true });
+        console.log("resolvedOrNull : " + resolvedOrNull);
+
+        const hardhatresolvedOrNull = await which('hardhat', { nothrow: true });
+        console.log("resolvedOrNull : " + hardhatresolvedOrNull);
+
+        const hardhatresolvedOrNull2 = path.resolve(__dirname, './node_modules/.bin/hardhat');
+
+        // const npxPath = 'C:\\Program Files\\nodejs\\npx.cmd';
+        const npxPath = resolvedOrNull;
+        const hardhatConfigPath = path.resolve(__dirname, './hardhat.config.js');
+
+        //    const isCompiled = fs.existsSync(path.resolve(__dirname, './artifacts'));
+        //   if (!isCompiled) {
+        //       console.log("Contracts are not compiled. Please compile first.");
+        //       return;
+        //   } else {
+        // res.send('Contracts are compiled');
+        const isAvailable = fs.existsSync(path.resolve(__dirname, './scripts/mint.js'));
+        console.log("mint.js available - /mint :" + isAvailable);
+        const deployScriptPath = path.resolve(__dirname, './scripts/');
+
+        console.log("Request body:", req.body); // Debugging the incoming payload
+        let SELECTED_TOKEN_ID = req.body.selectedTokenId_server;
+        let MINTING_SPECIAL = req.body.mintingSpecial_server[0];
+        console.log("SELECTED_TOKEN_ID:", SELECTED_TOKEN_ID);
+        console.log("BURNING_SPECIAL:", MINTING_SPECIAL);
+
+        let chainName;
+        let sNetwork = req.body.selectededNetwork;
+        console.log("sNetwork : " + sNetwork);
+
+        if (req.body.selectededNetwork == '137') {
+            chainName = 'polygonMumbai';
+            console.log("SelectedNetwork" + chainName);
+        }
+
+        if (req.body.selectededNetwork == '5') {
+            chainName = 'goerliTestnet';
+            console.log("SelectedNetwork" + chainName);
+        }
+
+
+        const _RECEIVED_DRONE_VALUE = req.body.RECEIVED_DRONE_VALUE
+        console.log("_RECEIVED_DRONE_VALUE" + _RECEIVED_DRONE_VALUE);
+
+        const childProcess = spawn(npxPath, [
+            hardhatresolvedOrNull2,
+            'run',
+            './scripts/mint_drn.js',
+            '--network',
+            'polygonMumbai'
+        ], {
+            cwd: /*deployScriptPath8*/__dirname,
+            env: {
+                // Pass variables as environment variables
+                CHAIN_ID: req.body.selectededNetwork,
+                USER_ADDRESS: req.body.userAddress,
+                _SELECTED_TOKEN_ID:  req.body.selectedTokenId_server,
+                __RECEIVED_DRONE_VALUE: _RECEIVED_DRONE_VALUE
+            },
+        });
+
+
+        childProcess.on('close', async (code) => {
+            try {
+                if (code === 0) {
+                    console.log("I'm back to prev code");
+            
+                    try {
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; 
+           
+                        const droneTraitType = 'Drone'; // New attribute
+                       const droneValue = 'None'; // Value from frontend        
+                                       
+
+                        // Fetch the JSON file from the URL
+                        const response = await axios.get(url);
+                        const jsonData = response.data;
+                        
+                        // Remove "Drone" attribute if it exists
+                        jsonData.attributes = jsonData.attributes.filter(attr => attr.trait_type !== droneTraitType);
+            
+                        // Re-add "Drone" at the end
+                        jsonData.attributes.push({ trait_type: droneTraitType, value: droneValue });
+                        console.log(`Ensured "Drone" is the last attribute: ${droneValue}`);
+            
+                        // Save updated metadata
+                        const savePath = `./metadata/${SELECTED_TOKEN_ID}.json`;
+                        const dir = path.dirname(savePath);
+                        const baseName = path.basename(savePath, '.json');
+                        const newFilePath = path.join(dir, `${baseName}_1.json`);
+            
+                        fs.writeFileSync(newFilePath, JSON.stringify(jsonData, null, 2));
+            
+                        if (fs.existsSync(savePath)) {
+                            fs.unlinkSync(savePath);
+                        }
+                        fs.renameSync(newFilePath, savePath);
+            
+                        console.log(`File updated and saved as: ${savePath}`);
+            
+                        // Generate image based on metadata
+                        await generateImageFromMetadata(savePath, SELECTED_TOKEN_ID);
+            
+                    } catch (error) {
+                        console.error('Error processing the JSON file:', error.message);
+                    }
+            
+                    console.log("Deployment successful");
+                    res.send(`CS_SPOkay`);
+                } else {
+                    console.log("Error during deployment");
+                    res.status(500).send('Error during deployment');
+                }
+            } catch (err) {
+                console.log(err);
+            }
+            
+        });
+
+        // Capture stdout
+        let stdoutData = '';
+        childProcess.stdout.on('data', (data) => {
+            stdoutData += data.toString();
+            console.log("data :" + data.toString()); // Log the output to the console
+        });
+
+        // Log errors
+        childProcess.stderr.on('data', (data) => {
+            console.error('new stderr-deploy:', data.toString());
+        });
+
+        console.log("data" + req.body.totalSupply);
+
+        //  }
+
+
+    } catch (error) {
+        console.error('error:', error);
+        res.status(500).send('Error during deployment');
+        res.send(`networkError`);
+    }
+
+});
 
 router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) => {
 
@@ -592,19 +954,19 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Special Power'; // The trait type to update or add
                         const value = 'None'; // The value provided by the user (can be changed to AK47, AK48, etc.)
                         //const newImageUrl = `https://robotic-rabbit-collection.s3.amazonaws.com/noWeaponRabbit/${SELECTED_TOKEN_ID}.png`; // New image URL
-                        const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
+                      //  const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
 
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
 
-                        jsonData.image = newImageUrl;
-                        console.log(`Updated image URL to: ${newImageUrl}`);
+                      //  jsonData.image = newImageUrl;
+                      //  console.log(`Updated image URL to: ${newImageUrl}`);
 
                         // Find if the trait already exists in the 'attributes' array
                         const attributeIndex = jsonData.attributes.findIndex(
@@ -641,9 +1003,9 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
                         fs.renameSync(newFilePath, savePath);
 
                         // Upload the updated file to S3
-                        // await uploadToS3(savePath, SELECTED_TOKEN_ID);
+                       // await uploadToS3(savePath, SELECTED_TOKEN_ID);
 
-                        //console.log(`File updated and uploaded to S3: ${savePath}`);
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
 
@@ -773,19 +1135,19 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Weapons and Gear'; // The trait type to update or add
                         const value = 'None'; // The value provided by the user (can be changed to AK47, AK48, etc.)
                         //const newImageUrl = `https://robotic-rabbit-collection.s3.amazonaws.com/noWeaponRabbit/${SELECTED_TOKEN_ID}.png`; // New image URL
-                        const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
+                        //const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
 
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
 
-                        jsonData.image = newImageUrl;
-                        console.log(`Updated image URL to: ${newImageUrl}`);
+                        //jsonData.image = newImageUrl;
+                        //console.log(`Updated image URL to: ${newImageUrl}`);
 
                         // Find if the trait already exists in the 'attributes' array
                         const attributeIndex = jsonData.attributes.findIndex(
@@ -822,9 +1184,9 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
                         fs.renameSync(newFilePath, savePath);
 
                         // Upload the updated file to S3
-                        // await uploadToS3(savePath, SELECTED_TOKEN_ID);
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
 
-                        //console.log(`File updated and uploaded to S3: ${savePath}`);
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
 
@@ -953,19 +1315,19 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Special Power'; // The trait type to update or add
                         const value = weaponList[BURNING_SPECIAL_ID]; // The value provided by the user (can be changed to AK47, AK48, etc.)
                         //const newImageUrl = `https://robotic-rabbit-collection.s3.amazonaws.com/noWeaponRabbit/${SELECTED_TOKEN_ID}.png`; // New image URL
-                        const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
+                        //const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
 
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
 
-                        jsonData.image = newImageUrl;
-                        console.log(`Updated image URL to: ${newImageUrl}`);
+                      //  jsonData.image = newImageUrl;
+                       // console.log(`Updated image URL to: ${newImageUrl}`);
 
                         // Find if the trait already exists in the 'attributes' array
                         const attributeIndex = jsonData.attributes.findIndex(
@@ -1002,9 +1364,9 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
                         fs.renameSync(newFilePath, savePath);
 
                         // Upload the updated file to S3
-                        // await uploadToS3(savePath, SELECTED_TOKEN_ID);
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
 
-                        // console.log(`File updated and uploaded to S3: ${savePath}`);
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
 
@@ -1136,19 +1498,19 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
 
                     try {
 
-                        const url = `https://robotic-rabbit-metadata-live-replica02.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; // Replace with the URL of your JSON file
 
                         const traitType = 'Weapons and Gear'; // The trait type to update or add
                         const value = weaponList[BURNING_WEAPON_ID]; // The value provided by the user (can be changed to AK47, AK48, etc.)
                         //const newImageUrl = `https://robotic-rabbit-collection.s3.amazonaws.com/noWeaponRabbit/${SELECTED_TOKEN_ID}.png`; // New image URL
-                        const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
+                        //const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
 
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
 
-                        jsonData.image = newImageUrl;
-                        console.log(`Updated image URL to: ${newImageUrl}`);
+                        //jsonData.image = newImageUrl;
+                        //console.log(`Updated image URL to: ${newImageUrl}`);
 
                         // Find if the trait already exists in the 'attributes' array
                         const attributeIndex = jsonData.attributes.findIndex(
@@ -1185,9 +1547,9 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
                         fs.renameSync(newFilePath, savePath);
 
                         // Upload the updated file to S3
-                        // await uploadToS3(savePath, SELECTED_TOKEN_ID);
+                        await uploadToS3(savePath, SELECTED_TOKEN_ID);
 
-                        // console.log(`File updated and uploaded to S3: ${savePath}`);
+                        console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
 
