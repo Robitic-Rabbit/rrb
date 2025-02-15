@@ -234,7 +234,7 @@ const imageMappings = {
         "Jason_s Terror Tools": "./traits/Gear/Jason_s Terror Tools.png",
         "MaxMint Mallet": "./traits/Gear/MaxMint Mallet.png",
         "Medusa_s Pointed Pelerine": "./traits/Gear/Medusa_s Pointed Pelerine.png",
-        "Minter’s Guardian Sword": "./traits/Gear/Minter’s Guardian Sword.png",
+        "Minter’s Guardian Sword": "./traits/Gear/Minter’s Guardian Sword.PNG",
         "Mutant Spine Spikes": "./traits/Gear/Mutant Spine Spikes.png",
         "PiranhaPlant Blaster": "./traits/Gear/PiranhaPlant Blaster.png",
         "Poseidon_s Poker": "./traits/Gear/Poseidon_s Poker.png",
