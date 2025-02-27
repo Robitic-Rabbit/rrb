@@ -594,13 +594,13 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
 
         console.log("Request body:", req.body); // Debugging the incoming payload
         let SELECTED_TOKEN_ID = req.body.selectedTokenId_server;
-        let MINTING_SPECIAL = req.body.mintingSpecial_server[0];
+        let MINTING_SPECIAL = req.body.mintingSpecial_server;
         console.log("SELECTED_TOKEN_ID:", SELECTED_TOKEN_ID);
         console.log("BURNING_SPECIAL:", MINTING_SPECIAL);
 
         let chainName;
-        let sNetwork = req.body.selectededNetwork;
-        console.log("sNetwork : " + sNetwork);
+      //  let sNetwork = req.body.selectededNetwork;
+       // console.log("sNetwork : " + sNetwork);
 
         if (req.body.selectededNetwork == '137') {
             chainName = 'polygonMumbai';
@@ -626,13 +626,12 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-                CHAIN_ID: req.body.selectededNetwork,
+                CHAIN_ID: req.body.selectedNetwork,
                 USER_ADDRESS: req.body.userAddress_server,
                 _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
                 __RECEIVED_DRONE_VALUE: _RECEIVED_DRONE_VALUE
             },
         });
-
 
         childProcess.on('close', async (code) => {
             try {
@@ -706,12 +705,12 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
             console.log("data :" + data.toString()); // Log the output to the console
         });
 
-        // Log errors
+        // Log errors"
         childProcess.stderr.on('data', (data) => {
             console.error('new stderr-deploy:', data.toString());
         });
 
-        console.log("data" + req.body.totalSupply);
+       // console.log("data" + req.body.totalSupply);
 
         //  }
 
