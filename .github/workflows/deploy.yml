@@ -1,32 +1,25 @@
 name: Deploy Backend to Hostinger VPS
-
 on:
   push:
     branches:
       - main
   workflow_dispatch:
-
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Check AWS CLI version
         run: aws --version
-
       # Step 1: Checkout code
       - name: Checkout repository
         uses: actions/checkout@v2
-
       # Step 2: Set up Docker and Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-
       # Step 4: Decode .env base64 string and restore it
       - name: Decode .env file
         run: |
           echo "${{ secrets.ENV_BASE64 }}" | base64 --decode > .env
-
       # Step 4: Determine Docker Image Tag
       - name: Set Docker image tag
         id: docker_tag
@@ -39,20 +32,16 @@ jobs:
           else
             echo "::set-output name=tag::$(date +'%Y%m%d%H%M%S')"
           fi
-
       # Step 5: Build Docker image
       - name: Build Docker image
         run: |
           docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }} -f Dockerfile .
-
       # Step 6: Log in to DockerHub using PAT
       - name: Log in to DockerHub
         run: echo "${{ secrets.DOCKER_HUB_PAT }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-
       # Step 7: Push Docker image to DockerHub
       - name: Push Docker image to DockerHub
         run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
-
       # Step 8: SSH into the VPS and deploy
       - name: Deploy to VPS
         env:
@@ -60,17 +49,31 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
-
           # SSH into VPS and update the Docker container
           ssh -i private_key -o StrictHostKeyChecking=no ubuntu@44.246.133.131 << 'EOF'
+            # Pull and update the main application
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             docker stop rrs-be || true
             docker rm rrs-be || true
             docker run -d --name rrs-be -p 80:3001 -p 5000 ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             
+            # Deploy or update the log viewer (Dozzle)
+            docker stop log-viewer || true
+            docker rm log-viewer || true
+            docker run -d \
+              --name log-viewer \
+              -p 8080:8080 \
+              -v /var/run/docker.sock:/var/run/docker.sock \
+              -e DOZZLE_AUTH=admin:changepassword \
+              --restart unless-stopped \
+              amir20/dozzle:latest
+            
+            # Clean up unused images
             docker image prune -a -f
+            
+            # Show running containers to verify deployment
+            docker ps
           EOF
-
       # Step 9: Clean up
       - name: Clean up private key
         run: rm -f private_key
