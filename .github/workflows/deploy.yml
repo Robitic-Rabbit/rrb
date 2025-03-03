@@ -16,7 +16,7 @@ jobs:
       # Step 2: Set up Docker and Buildx
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      # Step 4: Decode .env base64 string and restore it
+      # Step 3: Decode .env base64 string and restore it
       - name: Decode .env file
         run: |
           echo "${{ secrets.ENV_BASE64 }}" | base64 --decode > .env
@@ -25,12 +25,12 @@ jobs:
         id: docker_tag
         run: |
           if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "::set-output name=tag::$(date +'%Y%m%d%H%M%S')"
+            echo "tag=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           elif [ "${{ github.event_name }}" == "push" ] && [[ "${{ github.ref }}" == refs/tags/v* ]]; then
             tag_version=$(echo "${{ github.ref }}" | sed -e 's/refs\/tags\/v//')
-            echo "::set-output name=tag::v$tag_version"
+            echo "tag=v$tag_version" >> $GITHUB_OUTPUT
           else
-            echo "::set-output name=tag::$(date +'%Y%m%d%H%M%S')"
+            echo "tag=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
           fi
       # Step 5: Build Docker image
       - name: Build Docker image
@@ -55,24 +55,57 @@ jobs:
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             docker stop rrs-be || true
             docker rm rrs-be || true
-            docker run -d --name rrs-be -p 80:3001 -p 5000 ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             
-            # Deploy or update the log viewer (Dozzle)
+            # Run the backend with proper logging configuration
+            docker run -d --name rrs-be \
+              -p 80:3001 \
+              -p 5000:5000 \
+              --log-driver json-file \
+              --log-opt max-size=100m \
+              --log-opt max-file=5 \
+              -e NODE_ENV=production \
+              -e LOG_LEVEL=debug \
+              ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
+            
+            # Deploy log management tools
+            
+            # 1. Update Dozzle with authentication
             docker stop log-viewer || true
             docker rm log-viewer || true
             docker run -d \
               --name log-viewer \
               -p 8080:8080 \
               -v /var/run/docker.sock:/var/run/docker.sock \
-              -e DOZZLE_AUTH=admin:changepassword \
+              -e DOZZLE_AUTH=admin:${{ secrets.DOZZLE_PASSWORD || 'changepassword' }} \
+              -e DOZZLE_BASE=/logs \
               --restart unless-stopped \
               amir20/dozzle:latest
+            
+            # 2. Deploy Loki for log aggregation (optional)
+            docker stop loki || true
+            docker rm loki || true
+            docker run -d \
+              --name loki \
+              -p 3100:3100 \
+              --restart unless-stopped \
+              grafana/loki:latest
             
             # Clean up unused images
             docker image prune -a -f
             
             # Show running containers to verify deployment
             docker ps
+            
+            # Set up log rotation for Docker container logs
+            echo '#!/bin/bash
+            # Log rotation script for Docker containers
+            find /var/lib/docker/containers/ -name "*.log" -exec ls -la {} \;
+            ' > /home/ubuntu/docker-log-check.sh
+            
+            chmod +x /home/ubuntu/docker-log-check.sh
+            
+            # Add a cron job to run the log rotation script daily
+            (crontab -l 2>/dev/null; echo "0 0 * * * /home/ubuntu/docker-log-check.sh") | crontab -
           EOF
       # Step 9: Clean up
       - name: Clean up private key
