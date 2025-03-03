@@ -1603,6 +1603,10 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
 
 });
 
+router.get('/check', cors(corsOptions), async (req, res) => {
+    res.send(`successful`);
+});
+
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
