@@ -448,7 +448,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['http://localhost:3000', 'https://localhost:3000'],
+    origin: ['http://localhost:3000', 'https://d2mlmfod4h1sc4.cloudfront.net/'],
     optionsSuccessStatus: 200,
 };
 
