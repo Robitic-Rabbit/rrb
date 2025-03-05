@@ -58,7 +58,6 @@ jobs:
             
             # Run the backend with proper logging configuration
             docker run -d --name rrs-be \
-              -p 80:3001 \
               -p 5000:5000 \
               --log-driver json-file \
               --log-opt max-size=100m \
