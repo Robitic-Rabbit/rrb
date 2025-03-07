@@ -448,7 +448,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['http://localhost:3000', 'https://d2mlmfod4h1sc4.cloudfront.net/'],
+    origin: ['http://localhost:3000', 'https://localhost:3000'],
     optionsSuccessStatus: 200,
 };
 
@@ -470,6 +470,31 @@ const contractsPath = path.resolve(__dirname, './contracts');
 
 // Create an express Router
 const router = express.Router();
+
+const clients = []; // Store active connections for SSE
+
+router.get('/events', cors(corsOptions), (req, res) => { // Add CORS middleware
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+    res.flushHeaders(); // Ensure headers are sent immediately
+
+    // Send a initial comment to establish the connection
+    res.write(': Connected\n\n');
+
+    clients.push(res); // Store the response object
+
+    req.on('close', () => {
+        clients.splice(clients.indexOf(res), 1);
+    });
+});
+
+// Define sendUpdate to format messages properly
+function sendUpdate(message) {
+    clients.forEach(client => {
+        client.write(`data: ${message}\n\n`); // SSE format
+    });
+}
 
 // Mount the router at a specific path
 app.use('/api', router);
@@ -498,7 +523,7 @@ async function generateImageFromMetadata(savePath, SELECTED_TOKEN_ID) {
 
         // Merge images
         const finalImage = await mergeImages(imageUrls);
-       // const outputFilePath = `./outputImgs/${SELECTED_TOKEN_ID}.png`;
+        // const outputFilePath = `./outputImgs/${SELECTED_TOKEN_ID}.png`;
         const outputFilePath = `./outputImgs/${SELECTED_TOKEN_ID}.png`;
 
         // Save final image
@@ -569,6 +594,7 @@ async function mergeImages(imageUrls) {
 router.post('/addDrone', cors(corsOptions), async (req, res) => {
 
     try {
+        sendUpdate("Sending Data..."); // Inform frontend
 
         const resolvedOrNull = await which('npx', { nothrow: true });
         console.log("resolvedOrNull : " + resolvedOrNull);
@@ -599,8 +625,8 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
         console.log("BURNING_SPECIAL:", MINTING_SPECIAL);
 
         let chainName;
-      //  let sNetwork = req.body.selectededNetwork;
-       // console.log("sNetwork : " + sNetwork);
+        //  let sNetwork = req.body.selectededNetwork;
+        // console.log("sNetwork : " + sNetwork);
 
         if (req.body.selectededNetwork == '137') {
             chainName = 'polygonMumbai';
@@ -615,6 +641,8 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
 
         const _RECEIVED_DRONE_VALUE = req.body.RECEIVED_DRONE_VALUE
         console.log("_RECEIVED_DRONE_VALUE" + _RECEIVED_DRONE_VALUE);
+
+        sendUpdate("Executing Blockchain Functions...");
 
         const childProcess = spawn(npxPath, [
             hardhatresolvedOrNull2,
@@ -637,65 +665,72 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
             try {
                 if (code === 0) {
                     console.log("I'm back to prev code");
-            
+
+                    sendUpdate("Adjusting Metadata...");
+
                     try {
-                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; 
-           
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`;
+
                         const droneTraitType = 'Drone'; // New attribute
                         let droneValue;
 
-                        if(_RECEIVED_DRONE_VALUE == 39){
-                            droneValue = 'SkyHopper';                            
-                        }else if(_RECEIVED_DRONE_VALUE == 40){
+                        if (_RECEIVED_DRONE_VALUE == 39) {
+                            droneValue = 'SkyHopper';
+                        } else if (_RECEIVED_DRONE_VALUE == 40) {
                             droneValue = 'SpectraFly';
-                        }else if(_RECEIVED_DRONE_VALUE == 41){
+                        } else if (_RECEIVED_DRONE_VALUE == 41) {
                             droneValue = 'GoldenGlider';
                         }
 
-            
+
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
-                        
+
                         // Remove "Drone" attribute if it exists
                         jsonData.attributes = jsonData.attributes.filter(attr => attr.trait_type !== droneTraitType);
-            
+
                         // Re-add "Drone" at the end
                         jsonData.attributes.push({ trait_type: droneTraitType, value: droneValue });
                         console.log(`Ensured "Drone" is the last attribute: ${droneValue}`);
-            
+
                         // Save updated metadata
                         const savePath = `./metadata/${SELECTED_TOKEN_ID}.json`;
                         const dir = path.dirname(savePath);
                         const baseName = path.basename(savePath, '.json');
                         const newFilePath = path.join(dir, `${baseName}_1.json`);
-            
+
                         fs.writeFileSync(newFilePath, JSON.stringify(jsonData, null, 2));
-            
+
                         if (fs.existsSync(savePath)) {
                             fs.unlinkSync(savePath);
                         }
                         fs.renameSync(newFilePath, savePath);
-            
+
                         console.log(`File updated and saved as: ${savePath}`);
-            
+
                         // Generate image based on metadata
                         await generateImageFromMetadata(savePath, SELECTED_TOKEN_ID);
-            
+
                     } catch (error) {
+                        sendUpdate("Metadata Adjustment Failed.");
                         console.error('Error processing the JSON file:', error.message);
                     }
-            
+
+                    sendUpdate("Process Completed!");
                     console.log("Deployment successful");
+                    sendUpdate("Blockchain Execution Failed.");
                     res.send(`CS_SPOkay`);
                 } else {
                     console.log("Error during deployment");
+                    sendUpdate("Blockchain Execution Failed.");
                     res.status(500).send('Error during deployment');
                 }
             } catch (err) {
+                sendUpdate("Error Occurred.");
                 console.log(err);
             }
-            
+
         });
 
         // Capture stdout
@@ -710,7 +745,7 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
             console.error('new stderr-deploy:', data.toString());
         });
 
-       // console.log("data" + req.body.totalSupply);
+        // console.log("data" + req.body.totalSupply);
 
         //  }
 
@@ -726,6 +761,8 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
 router.post('/removeDrone', cors(corsOptions), async (req, res) => {
 
     try {
+
+        sendUpdate("Sending Data..."); // Inform frontend
 
         const resolvedOrNull = await which('npx', { nothrow: true });
         console.log("resolvedOrNull : " + resolvedOrNull);
@@ -773,6 +810,8 @@ router.post('/removeDrone', cors(corsOptions), async (req, res) => {
         const _RECEIVED_DRONE_VALUE = req.body.RECEIVED_DRONE_VALUE
         console.log("_RECEIVED_DRONE_VALUE" + _RECEIVED_DRONE_VALUE);
 
+        sendUpdate("Executing Blockchain Functions...");
+
         const childProcess = spawn(npxPath, [
             hardhatresolvedOrNull2,
             'run',
@@ -785,7 +824,7 @@ router.post('/removeDrone', cors(corsOptions), async (req, res) => {
                 // Pass variables as environment variables
                 CHAIN_ID: req.body.selectededNetwork,
                 USER_ADDRESS: req.body.userAddress,
-                _SELECTED_TOKEN_ID:  req.body.selectedTokenId_server,
+                _SELECTED_TOKEN_ID: req.body.selectedTokenId_server,
                 __RECEIVED_DRONE_VALUE: _RECEIVED_DRONE_VALUE
             },
         });
@@ -795,57 +834,62 @@ router.post('/removeDrone', cors(corsOptions), async (req, res) => {
             try {
                 if (code === 0) {
                     console.log("I'm back to prev code");
-            
+                    sendUpdate("Adjusting Metadata...");
+
                     try {
-                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`; 
-           
+                        const url = `https://robotic-rabbit-metadata-live-replica04.s3.us-east-1.amazonaws.com/${SELECTED_TOKEN_ID}.json`;
+
                         const droneTraitType = 'Drone'; // New attribute
-                       const droneValue = 'None'; // Value from frontend        
-                                       
+                        const droneValue = 'None'; // Value from frontend        
+
 
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
-                        
+
                         // Remove "Drone" attribute if it exists
                         jsonData.attributes = jsonData.attributes.filter(attr => attr.trait_type !== droneTraitType);
-            
+
                         // Re-add "Drone" at the end
                         jsonData.attributes.push({ trait_type: droneTraitType, value: droneValue });
                         console.log(`Ensured "Drone" is the last attribute: ${droneValue}`);
-            
+
                         // Save updated metadata
                         const savePath = `./metadata/${SELECTED_TOKEN_ID}.json`;
                         const dir = path.dirname(savePath);
                         const baseName = path.basename(savePath, '.json');
                         const newFilePath = path.join(dir, `${baseName}_1.json`);
-            
+
                         fs.writeFileSync(newFilePath, JSON.stringify(jsonData, null, 2));
-            
+
                         if (fs.existsSync(savePath)) {
                             fs.unlinkSync(savePath);
                         }
                         fs.renameSync(newFilePath, savePath);
-            
+
                         console.log(`File updated and saved as: ${savePath}`);
-            
+
                         // Generate image based on metadata
                         await generateImageFromMetadata(savePath, SELECTED_TOKEN_ID);
-            
+
                     } catch (error) {
+                        sendUpdate("Metadata Adjustment Failed.");
                         console.error('Error processing the JSON file:', error.message);
                     }
-            
+
+                    sendUpdate("Process Completed!");
                     console.log("Deployment successful");
                     res.send(`CS_SPOkay`);
                 } else {
                     console.log("Error during deployment");
+                    sendUpdate("Blockchain Execution Failed.");
                     res.status(500).send('Error during deployment');
                 }
             } catch (err) {
+                sendUpdate("Error Occurred.");
                 console.log(err);
             }
-            
+
         });
 
         // Capture stdout
@@ -876,6 +920,7 @@ router.post('/removeDrone', cors(corsOptions), async (req, res) => {
 router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) => {
 
     try {
+        sendUpdate("Sending Data..."); // Inform frontend
 
         const resolvedOrNull = await which('npx', { nothrow: true });
         console.log("resolvedOrNull : " + resolvedOrNull);
@@ -919,7 +964,7 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
             console.log("SelectedNetwork" + chainName);
         }
 
-
+        sendUpdate("Executing Blockchain Functions...");
 
         const childProcess = spawn(npxPath, [
             hardhatresolvedOrNull2,
@@ -943,6 +988,7 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
             try {
 
                 if (code === 0) {
+                    sendUpdate("Adjusting Metadata...");
 
                     console.log("I'm back to prev code");
 
@@ -958,14 +1004,14 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
                         const traitType = 'Special Power'; // The trait type to update or add
                         const value = 'None'; // The value provided by the user (can be changed to AK47, AK48, etc.)
                         //const newImageUrl = `https://robotic-rabbit-collection.s3.amazonaws.com/noWeaponRabbit/${SELECTED_TOKEN_ID}.png`; // New image URL
-                      //  const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
+                        //  const newImageUrl = `https://bafybeiamdsnltto6afcwcag433i2abmsp7azgxo62utxx7yninsc3jm6cy.ipfs.w3s.link/pending.png`; // New image URL
 
                         // Fetch the JSON file from the URL
                         const response = await axios.get(url);
                         const jsonData = response.data;
 
-                      //  jsonData.image = newImageUrl;
-                      //  console.log(`Updated image URL to: ${newImageUrl}`);
+                        //  jsonData.image = newImageUrl;
+                        //  console.log(`Updated image URL to: ${newImageUrl}`);
 
                         // Find if the trait already exists in the 'attributes' array
                         const attributeIndex = jsonData.attributes.findIndex(
@@ -1002,29 +1048,33 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
                         fs.renameSync(newFilePath, savePath);
 
                         // Upload the updated file to S3
-                       // await uploadToS3(savePath, SELECTED_TOKEN_ID);
+                        // await uploadToS3(savePath, SELECTED_TOKEN_ID);
 
                         console.log(`File updated and uploaded to S3: ${savePath}`);
 
                         console.log(`File updated and saved as: ${savePath}`);
 
-                         // <Section> // - Reading Metadata
+                        // <Section> // - Reading Metadata
                         // Run the function
                         await generateImageFromMetadata(savePath, SELECTED_TOKEN_ID);
                         //   </Section> // - Reading Metadata
 
                     } catch (error) {
+                        sendUpdate("Metadata Adjustment Failed.");
                         console.error('Error processing the JSON file:', error.message);
                     }
 
+                    sendUpdate("Process Completed!");
                     console.log("Deployment successful");
                     res.send(`CS_SPOkay`);
                 } else {
                     // Deployment failed
                     console.log("Error during deployment");
+                    sendUpdate("Blockchain Execution Failed.");
                     res.status(500).send('Error during deployment');
                 }
             } catch (err) {
+                sendUpdate("Error Occurred.");
                 console.log(err);
             }
         });
@@ -1057,6 +1107,7 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
 router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) => {
 
     try {
+        sendUpdate("Sending Data..."); // Inform frontend
 
         const resolvedOrNull = await which('npx', { nothrow: true });
         console.log("resolvedOrNull : " + resolvedOrNull);
@@ -1100,7 +1151,7 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
             console.log("SelectedNetwork" + chainName);
         }
 
-
+        sendUpdate("Executing Blockchain Functions...");
 
         const childProcess = spawn(npxPath, [
             hardhatresolvedOrNull2,
@@ -1124,9 +1175,9 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
             try {
 
                 if (code === 0) {
+                    sendUpdate("Adjusting Metadata...");
 
                     console.log("I'm back to prev code");
-
 
                     // Deployment successful
 
@@ -1189,23 +1240,27 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
 
                         console.log(`File updated and saved as: ${savePath}`);
 
-                         // <Section> // - Reading Metadata
+                        // <Section> // - Reading Metadata
                         // Run the function
                         await generateImageFromMetadata(savePath, SELECTED_TOKEN_ID);
                         //   </Section> // - Reading Metadata
 
                     } catch (error) {
+                        sendUpdate("Metadata Adjustment Failed.");
                         console.error('Error processing the JSON file:', error.message);
                     }
 
+                    sendUpdate("Process Completed!");
                     console.log("Deployment successful");
                     res.send(`CS_WGOkay`);
                 } else {
                     // Deployment failed
                     console.log("Error during deployment");
+                    sendUpdate("Blockchain Execution Failed.");
                     //  res.status(500).send('Error during deployment');
                 }
             } catch (err) {
+                sendUpdate("Error Occurred.");
                 console.log(err);
             }
         });
@@ -1239,6 +1294,7 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
 
     try {
 
+        sendUpdate("Sending Data..."); // Inform frontend
 
         const resolvedOrNull = await which('npx', { nothrow: true });
         console.log("resolvedOrNull : " + resolvedOrNull);
@@ -1279,6 +1335,7 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
             console.log("SelectedNetwork" + chainName);
         }
 
+        sendUpdate("Executing Blockchain Functions...");
 
         const childProcess = spawn(npxPath, [
             hardhatresolvedOrNull2,
@@ -1306,6 +1363,7 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
             try {
 
                 if (code === 0) {
+                    sendUpdate("Adjusting Metadata...");
 
                     console.log("I'm back to prev code");
 
@@ -1325,8 +1383,8 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
                         const response = await axios.get(url);
                         const jsonData = response.data;
 
-                      //  jsonData.image = newImageUrl;
-                       // console.log(`Updated image URL to: ${newImageUrl}`);
+                        //  jsonData.image = newImageUrl;
+                        // console.log(`Updated image URL to: ${newImageUrl}`);
 
                         // Find if the trait already exists in the 'attributes' array
                         const attributeIndex = jsonData.attributes.findIndex(
@@ -1378,17 +1436,21 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
 
 
                     } catch (error) {
+                        sendUpdate("Metadata Adjustment Failed.");
                         console.error('Error processing the JSON file:', error.message);
                     }
 
+                    sendUpdate("Process Completed!");
                     console.log("Deployment successful");
                     res.send(`SPOkay`);
                 } else {
                     // Deployment failed
+                    sendUpdate("Blockchain Execution Failed.");
                     console.log("Error during deployment");
                     //  res.status(500).send('Error during deployment');
                 }
             } catch (err) {
+                sendUpdate("Error Occurred.");
                 console.log(err);
             }
         });
@@ -1422,6 +1484,7 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
 
     try {
 
+        sendUpdate("Adjusting Metadata...");
 
         const resolvedOrNull = await which('npx', { nothrow: true });
         console.log("resolvedOrNull : " + resolvedOrNull);
@@ -1462,6 +1525,7 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
             console.log("SelectedNetwork" + chainName);
         }
 
+        sendUpdate("Executing Blockchain Functions...");
 
         const childProcess = spawn(npxPath, [
             hardhatresolvedOrNull2,
@@ -1489,6 +1553,7 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
             try {
 
                 if (code === 0) {
+                    sendUpdate("Adjusting Metadata...");
 
                     console.log("I'm back to prev code");
 
@@ -1561,9 +1626,11 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
                         //   </Section> // - Reading Metadata
 
                     } catch (error) {
+                        sendUpdate("Metadata Adjustment Failed.");
                         console.error('Error processing the JSON file:', error.message);
                     }
 
+                    sendUpdate("Process Completed!");
                     console.log("Deployment successful");
                     res.send(`WPOkay`);
 
@@ -1572,9 +1639,12 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
                     // Deployment failed
                     console.log("Error during deployment");
                     //  res.status(500).send('Error during deployment');
+                    sendUpdate("Blockchain Execution Failed.");
+
                 }
             } catch (err) {
                 console.log(err);
+                sendUpdate("Error Occurred.");
             }
         });
 
