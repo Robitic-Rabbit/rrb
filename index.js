@@ -775,6 +775,9 @@ app.use((req, res, next) => {
 var corsOptions = {
     origin: ['https://api.roboticrabbitsyndicate.io', 'https://localhost:3000'],
     optionsSuccessStatus: 200,
+    methods: "GET,POST",
+    allowedHeaders: ["Content-Type"],
+    exposedHeaders: ["Content-Type"],
 };
 
 // Body parsing middleware
