@@ -773,7 +773,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['http://localhost:3000', 'https://localhost:3000'],
+    origin: ['http://44.246.133.131', 'https://localhost:3000'],
     optionsSuccessStatus: 200,
 };
 
