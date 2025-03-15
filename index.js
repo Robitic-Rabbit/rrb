@@ -720,9 +720,9 @@ async function uploadToS3ImgArmories(filePath, tokenId) {
         const fileContent = fs.readFileSync(filePath);
         const params = {
             Bucket: armoryBucket,
-            Key: `${tokenId}.json`,
+            Key: `${tokenId}.png`,
             Body: fileContent,
-            ContentType: 'application/json'
+            ContentType: 'image/png'
         };
 
         const data = await s3.upload(params).promise();
@@ -2515,7 +2515,6 @@ router.post('/upgradeExistingTrait', cors(corsOptions), async (req, res) => {
         const npxPath = resolvedOrNull;
         const hardhatConfigPath = path.resolve(__dirname, './hardhat.config.js');
 
-
         //.......................................................................................
         const selectedUpgradedTrait = req.body._selectedUpgradedTrait;
         const tokenId = req.body._tokenId;
@@ -2597,8 +2596,9 @@ router.post('/upgradeExistingTrait', cors(corsOptions), async (req, res) => {
                     fs.writeFileSync(finalImagePath, finalImageBuffer);
                     console.log("Final image saved at", finalImagePath);
 
-                    await uploadToS3Img(finalImagePath, tokenId);
-
+                    const imgLocation = await uploadToS3Img(finalImagePath, tokenId);
+                    console.log("imgLocation : " + imgLocation);
+                    console.log("running after uploading img to the bucket")
                     metadata.attributes = metadata.attributes.map(attr => {
                         if (attr.trait_type === traitType) {
                             attr.value = `${selectedUpgradedTrait} upgraded`;
@@ -2606,13 +2606,15 @@ router.post('/upgradeExistingTrait', cors(corsOptions), async (req, res) => {
                         return attr;
                     });
 
+                    metadata.image = imgLocation;
+
                     await saveAndUploadMetadata(tokenId, metadata);
 
                     sendUpdate("Process Completed!");
 
                     return res.json({ finalImagePath });
 
-                    
+
                 } catch (err) {
                     console.log(err);
                     sendUpdate("Error Occurred.");
@@ -2659,10 +2661,15 @@ async function saveAndUploadMetadata(tokenId, metadata) {
         fs.writeFileSync(metadataFilePath, JSON.stringify(metadata, null, 2));
         console.log("Metadata saved locally at", metadataFilePath);
 
+        // Read metadata file correctly
+        const fileContent = fs.readFileSync(metadataFilePath, 'utf8');
+        const metadataBuffer = Buffer.from(fileContent); // Convert to Buffer
+
+
         const s3Params = {
             Bucket: syndicateBucket,
             Key: `${tokenId}.json`,
-            Body: fs.readFileSync(metadataFilePath),
+            Body: metadataBuffer,
             ContentType: "application/json",
         };
 
@@ -2676,7 +2683,7 @@ async function saveAndUploadMetadata(tokenId, metadata) {
     }
 }
 
-router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
+router.post('/armoryCreation_copy', cors(corsOptions), async (req, res) => {
     try {
         if (!req.body || !req.body.file) {
             return res.status(400).json({ error: 'No file received' });
@@ -2712,6 +2719,12 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
         const fileUrl = `${req.protocol}://${req.get('host')}/uploads/${fileName}`;
         console.log('Image URL:', fileUrl);
 
+
+        //upload img to S3
+
+        await uploadToS3ImgArmories(imagePath, nftId);
+        console.log("uploadToS3ImgArmories : " + uploadToS3ImgArmories);
+
         /*  return res.json({
               success: true,
               message: 'File uploaded successfully',
@@ -2739,14 +2752,14 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
             fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
 
             const fileContent = fs.readFileSync(metadataPath);
-            /* const params = {
-                  Bucket: syndicateBucket,
-                  Key: `${tokenId}.json`,
-                  Body: fileContent,
-                  ContentType: 'application/json'
-              };*/
+            const params = {
+                Bucket: armoryBucket,
+                Key: `${nftId}.json`,
+                Body: fileContent,
+                ContentType: 'application/json'
+            };
 
-            // const data = await s3.upload(params).promise();
+            const data = await s3.upload(params).promise();
 
             // return data.Location;
 
@@ -2762,6 +2775,139 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
         res.status(500).json({ error: 'Failed to upload NFT. Please try again.' });
     }
 });
+
+router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
+    try {
+        if (!req.body || !req.body.file) {
+            return res.status(400).json({ error: 'No file received' });
+        }
+
+        const { nftName, description, nftId } = req.body;
+        console.log("nftName:", nftName);
+        console.log("description:", description);
+        console.log("nftId:", nftId);
+
+        // Decode and save the image
+        const fileBase64 = req.body.file.replace(/^data:image\/\w+;base64,/, '');
+        const imageBuffer = Buffer.from(fileBase64, 'base64');
+        const imagePath = path.join(uploadDir, `${nftId}.png`);
+
+        fs.writeFileSync(imagePath, imageBuffer);
+        console.log('File saved as:', imagePath);
+
+        // Upload image to S3
+        const imgPathS3 = await uploadToS3ImgArmories(imagePath, nftId);
+        console.log("Image uploaded to S3");
+
+        // Create and save metadata
+        const metadata = {
+            name: nftName,
+            description: description,
+            image: imgPathS3,
+            edition: nftId,
+            attributes: []
+        };
+
+        const metadataPath = path.join(uploadDir, `${nftId}.json`);
+        fs.writeFileSync(metadataPath, JSON.stringify(metadata, null, 2));
+        console.log("Metadata file saved:", metadataPath);
+
+        // Read metadata file correctly
+        const fileContent = fs.readFileSync(metadataPath, 'utf8');
+        const metadataBuffer = Buffer.from(fileContent); // Convert to Buffer
+
+        const params = {
+            Bucket: armoryBucket,
+            Key: `${nftId}.json`,
+            Body: metadataBuffer, // Pass the buffer instead of an object
+            ContentType: 'application/json'
+        };
+
+        await uploadToS3ArmoriesJson(params);
+        console.log("Metadata uploaded to S3");
+
+        res.json({ message: "NFT metadata created and uploaded successfully", filePath: metadataPath });
+    } catch (error) {
+        console.error('Error processing NFT:', error);
+        res.status(500).json({ error: 'Failed to process NFT. Please try again.' });
+    }
+});
+
+async function uploadToS3ArmoriesJson(params) {
+    try {
+        const data = await s3.upload(params).promise();
+        console.log(`File uploaded successfully at ${data.Location}`);
+        return data.Location;
+    } catch (error) {
+        console.error("Error uploading to S3:", error);
+        throw error;
+    }
+}
+
+//............................UPGRADE TRAITS UPLOAD............................
+
+// Route to handle file upload
+/*router.post('/uploadUpgradedImages', cors(corsOptions), (req, res) => {
+
+
+    // Ensure the upgrades folder exists
+    const uploadDir = path.join(__dirname, 'upgradedTraits');
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    let fileData = [];
+
+    req.on('data', chunk => {
+        fileData.push(chunk);
+    });
+
+    const { base64Image, traitName } = req.body;
+    if (!base64Image || !traitName) {
+        return res.status(400).json({ error: 'Missing base64 image or trait name' });
+    }
+    
+    const filename = `${traitName}_Upgraded.png`;
+    const filePath = path.join(uploadDir, filename);
+    const base64Data = base64Image.replace(/^data:image\/png;base64,/, ''); // Remove header if present
+    
+    fs.writeFile(filePath, base64Data, 'base64', (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to save file' });
+        }
+        res.json({ message: 'File uploaded successfully', filename });
+    });
+});
+*/
+
+router.post('/uploadUpgradedImages', cors(corsOptions), (req, res) => {
+    // Ensure the upgrades folder exists
+    const uploadDir = path.join(__dirname, 'upgradedTraits');
+    if (!fs.existsSync(uploadDir)) {
+        fs.mkdirSync(uploadDir, { recursive: true });
+    }
+
+    // Extract base64 image & trait name
+    const { base64Image, traitName } = req.body;
+    if (!base64Image || !traitName) {
+        return res.status(400).json({ error: 'Missing base64 image or trait name' });
+    }
+
+    // Construct filename and path
+    const filename = `${traitName.replace(/\s+/g, '_')}_Upgraded.png`; // Replace spaces to avoid URL encoding issues
+    const filePath = path.join(uploadDir, filename);
+    const base64Data = base64Image.replace(/^data:image\/png;base64,/, ''); // Remove base64 prefix if present
+
+    // Save the file
+    fs.writeFile(filePath, base64Data, 'base64', (err) => {
+        if (err) {
+            return res.status(500).json({ error: 'Failed to save file' });
+        }
+        res.json({ message: 'File uploaded successfully', filename });
+    });
+});
+
+//............................UPGRADE TRAITS UPLOAD............................
 
 router.get('/check', cors(corsOptions), async (req, res) => {
     res.send(`successful`);
