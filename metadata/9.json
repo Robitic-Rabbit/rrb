@@ -1,0 +1,48 @@
+{
+  "name": "Robotic Rabbit #9",
+  "description": "The Robotic Rabbit Syndicate is a group of Robotic Rabbits dedicated to fighting crime and protecting their world from evil villains.",
+  "image": "https://robotic-rabbit-metadata-live-replica04.s3.amazonaws.com/9.png",
+  "dna": "5dc1e941c5710b700c1c925f5c345e542aa0284e",
+  "edition": 9,
+  "date": 1686677100000,
+  "nft_type": "og-mint",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Lime Green"
+    },
+    {
+      "trait_type": "Special Power",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons and Gear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Body",
+      "value": "MegaRabbit Armor upgraded"
+    },
+    {
+      "trait_type": "Skull",
+      "value": "Garnet"
+    },
+    {
+      "trait_type": "Head",
+      "value": "Golden Test Dummy Receptors"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "LuchaLibre Look"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Royal Samurai Respire"
+    },
+    {
+      "trait_type": "Drone",
+      "value": "None"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
