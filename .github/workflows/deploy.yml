@@ -50,7 +50,7 @@ jobs:
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
           # SSH into VPS and update the Docker container
-          ssh -i private_key -o StrictHostKeyChecking=no ubuntu@44.246.133.131 << 'EOF'
+          ssh -i private_key -o StrictHostKeyChecking=no root@147.79.102.153 << 'EOF'
             # Pull and update the main application
             docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
             docker stop rrs-be || true
@@ -60,7 +60,7 @@ jobs:
             docker run -d --name rrs-be \
               -p 5000 \
               -p 3001 \
-              --network RRS \
+              --network rrs \
               --log-driver json-file \
               --log-opt max-size=100m \
               --log-opt max-file=5 \
@@ -75,7 +75,7 @@ jobs:
             docker rm log-viewer || true
             docker run -d \
               --name log-viewer \
-              --network RRS \
+              --network rrs \
               -p 8080:8080 \
               -v /var/run/docker.sock:/var/run/docker.sock \
               -e DOZZLE_AUTH=admin:${{ secrets.DOZZLE_PASSWORD || 'changepassword' }} \
@@ -88,7 +88,7 @@ jobs:
             docker rm loki || true
             docker run -d \
               --name loki \
-              --network RRS \
+              --network rrs \
               -p 3100:3100 \
               --restart unless-stopped \
               grafana/loki:latest
