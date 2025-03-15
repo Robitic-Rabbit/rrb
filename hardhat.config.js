@@ -7,8 +7,6 @@ const signer = process.env.SIGN;
 const SCANPOLY = process.env.SCANPOLY;
 const SCANPULSE = process.env.SCANPULSE;
 
-console.log("SCANPOLY : " + SCANPOLY);
-console.log("signer : " + signer);
 
 module.exports = {
   solidity: "0.8.19",
