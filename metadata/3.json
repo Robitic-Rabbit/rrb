@@ -1,0 +1,48 @@
+{
+  "name": "Robotic Rabbit #3",
+  "description": "The Robotic Rabbit Syndicate is a group of Robotic Rabbits dedicated to fighting crime and protecting their world from evil villains.",
+  "image": "https://robotic-rabbit-metadata-live-replica04.s3.amazonaws.com/3.png",
+  "dna": "acfabd1878b7a097697d5e7f0b4abcb245b78b41",
+  "edition": 3,
+  "date": 1686677088000,
+  "nft_type": "og-mint",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Teal"
+    },
+    {
+      "trait_type": "Special Power",
+      "value": "Quantum Leap"
+    },
+    {
+      "trait_type": "Weapons and Gear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Body",
+      "value": "RebelRed Archer upgraded"
+    },
+    {
+      "trait_type": "Skull",
+      "value": "Gold"
+    },
+    {
+      "trait_type": "Head",
+      "value": "Dark TronTopper Helmet"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "Annoyed Baller "
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Wizard Whiskers"
+    },
+    {
+      "trait_type": "Drone",
+      "value": "None"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
