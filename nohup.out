@@ -1,0 +1,74 @@
+node:events:491
+       throw er; // Unhandled 'error' event
+       ^
+ 
+ Error: listen EADDRINUSE: address already in use :::3001
+     at Server.setupListenHandle [as _listen2] (node:net:1463:16)
+     at listenInCluster (node:net:1511:12)
+     at Server.listen (node:net:1599:7)
+     at Function.listen (/home/web3deploy/server/node_modules/express/lib/application.js:635:24)
+     at Object.<anonymous> (/home/web3deploy/server/index.cjs:326:5)
+     at Module._compile (node:internal/modules/cjs/loader:1198:14)
+     at Object.Module._extensions..js (node:internal/modules/cjs/loader:1252:10)
+     at Module.load (node:internal/modules/cjs/loader:1076:32)
+     at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+ Emitted 'error' event on Server instance at:
+     at emitErrorNT (node:net:1490:8)
+     at processTicksAndRejections (node:internal/process/task_queues:83:21) {
+   code: 'EADDRINUSE',
+   errno: -98,
+   syscall: 'listen',
+   address: '::',
+   port: 3001
+ }
+ Server is running on port 3001
+ resolvedOrNull : /bin/npx
+ hardhatresolvedOrNull : /bin/hardhat
+ 1
+ resolvedOrNull : /bin/npx
+ resolvedOrNull : /bin/hardhat
+ Contracts are already compiled. Move to deployment
+ ::ffff:127.0.0.1 - - [06/Dec/2023:18:36:18 +0000] "POST /api/compile HTTP/1.1" 200 50 "https://web3deploy.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+ resolvedOrNull : /bin/npx
+ resolvedOrNull : /bin/hardhat
+ deploy.js available - /deploy :true
+ data5411
+ new stderr-deploy: npm ERR! code ENOENT
+ npm ERR! syscall open
+ npm ERR! path /home/web3deploy/server/scripts/node_modules/.bin/hardhat/package.json
+ npm ERR! errno -2
+ npm ERR! enoent ENOENT: no such file or directory, open '/home/web3deploy/server/scripts/node_modules/.bin/hardhat/package.json'
+ npm ERR! enoent This is related to npm not being able to find a file.
+ npm ERR! enoent 
+ 
+ npm ERR! A complete log of this run can be found in:
+ npm ERR!     /home/web3deploy/.npm/_logs/2023-12-06T18_36_19_823Z-debug-0.log
+ 
+ Error during deployment
+ node:events:491
+       throw er; // Unhandled 'error' event
+       ^
+ 
+ Error: listen EADDRINUSE: address already in use :::3001
+     at Server.setupListenHandle [as _listen2] (node:net:1463:16)
+     at listenInCluster (node:net:1511:12)
+     at Server.listen (node:net:1599:7)
+     at Function.listen (/home/web3deploy/server/node_modules/express/lib/application.js:635:24)
+     at Object.<anonymous> (/home/web3deploy/server/index.cjs:326:5)
+     at Module._compile (node:internal/modules/cjs/loader:1198:14)
+     at Object.Module._extensions..js (node:internal/modules/cjs/loader:1252:10)
+     at Module.load (node:internal/modules/cjs/loader:1076:32)
+     at Function.Module._load (node:internal/modules/cjs/loader:911:12)
+     at Function.executeUserEntryPoint [as runMain] (node:internal/modules/run_main:81:12)
+ Emitted 'error' event on Server instance at:
+     at emitErrorNT (node:net:1490:8)
+     at processTicksAndRejections (node:internal/process/task_queues:83:21) {
+   code: 'EADDRINUSE',
+   errno: -98,
+   syscall: 'listen',
+   address: '::',
+   port: 3001
+ }
+ ::ffff:127.0.0.1 - - [06/Dec/2023:18:41:19 +0000] "POST /api/deploy HTTP/1.1" - - "https://web3deploy.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+ ::ffff:127.0.0.1 - - [06/Dec/2023:18:41:19 +0000] "GET /502.shtml HTTP/1.1" 404 148 "https://web3deploy.com/" "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
