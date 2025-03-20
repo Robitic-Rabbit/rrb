@@ -1,115 +1,23 @@
-name: Deploy Backend to Hostinger VPS
-on:
-  push:
-    branches:
-      - main
-  workflow_dispatch:
-jobs:
-  build-and-deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check AWS CLI version
-        run: aws --version
-      # Step 1: Checkout code
-      - name: Checkout repository
-        uses: actions/checkout@v2
-      # Step 2: Set up Docker and Buildx
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v2
-      # Step 3: Decode .env base64 string and restore it
-      - name: Decode .env file
-        run: |
-          echo "${{ secrets.ENV_BASE64 }}" | base64 --decode > .env
-      # Step 4: Determine Docker Image Tag
-      - name: Set Docker image tag
-        id: docker_tag
-        run: |
-          if [ "${{ github.event_name }}" == "push" ] && [ "${{ github.ref }}" == "refs/heads/main" ]; then
-            echo "tag=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-          elif [ "${{ github.event_name }}" == "push" ] && [[ "${{ github.ref }}" == refs/tags/v* ]]; then
-            tag_version=$(echo "${{ github.ref }}" | sed -e 's/refs\/tags\/v//')
-            echo "tag=v$tag_version" >> $GITHUB_OUTPUT
-          else
-            echo "tag=$(date +'%Y%m%d%H%M%S')" >> $GITHUB_OUTPUT
-          fi
-      # Step 5: Build Docker image
-      - name: Build Docker image
-        run: |
-          docker build --no-cache -t ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }} -f Dockerfile .
-      # Step 6: Log in to DockerHub using PAT
-      - name: Log in to DockerHub
-        run: echo "${{ secrets.DOCKER_HUB_PAT }}" | docker login -u "${{ secrets.DOCKER_HUB_USERNAME }}" --password-stdin
-      # Step 7: Push Docker image to DockerHub
-      - name: Push Docker image to DockerHub
-        run: docker push ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
-      # Step 8: SSH into the VPS and deploy
-      - name: Deploy to VPS
-        env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}  # Add your SSH private key to GitHub Secrets
-        run: |
-          echo "$SSH_PRIVATE_KEY" > private_key
-          chmod 600 private_key
-          # SSH into VPS and update the Docker container
-          ssh -i private_key -o StrictHostKeyChecking=no root@147.79.102.153 << 'EOF'
-            # Pull and update the main application
-            docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
-            docker stop rrs-be || true
-            docker rm rrs-be || true
-            
-            # Run the backend with proper logging configuration
-            docker run -d --name rrs-be \
-              -p 5000 \
-              -p 3001 \
-              --network rrs \
-              --log-driver json-file \
-              --log-opt max-size=100m \
-              --log-opt max-file=5 \
-              -e NODE_ENV=production \
-              -e LOG_LEVEL=debug \
-              ${{ secrets.DOCKER_HUB_USERNAME }}/rrs-be:${{ steps.docker_tag.outputs.tag }}
-            
-            # Deploy log management tools
-            
-            # 1. Update Dozzle with authentication
-            docker stop log-viewer || true
-            docker rm log-viewer || true
-            docker run -d \
-              --name log-viewer \
-              --network rrs \
-              -p 8080:8080 \
-              -v /var/run/docker.sock:/var/run/docker.sock \
-              -e DOZZLE_AUTH=admin:${{ secrets.DOZZLE_PASSWORD || 'changepassword' }} \
-              -e DOZZLE_BASE=/logs \
-              --restart unless-stopped \
-              amir20/dozzle:latest
-            
-            # 2. Deploy Loki for log aggregation (optional)
-            docker stop loki || true
-            docker rm loki || true
-            docker run -d \
-              --name loki \
-              --network rrs \
-              -p 3100:3100 \
-              --restart unless-stopped \
-              grafana/loki:latest
-            
-            # Clean up unused images
-            docker image prune -a -f
-            
-            # Show running containers to verify deployment
-            docker ps
-            
-            # Set up log rotation for Docker container logs
-            echo '#!/bin/bash
-            # Log rotation script for Docker containers
-            find /var/lib/docker/containers/ -name "*.log" -exec ls -la {} \;
-            ' > /home/ubuntu/docker-log-check.sh
-            
-            chmod +x /home/ubuntu/docker-log-check.sh
-            
-            # Add a cron job to run the log rotation script daily
-            (crontab -l 2>/dev/null; echo "0 0 * * * /home/ubuntu/docker-log-check.sh") | crontab -
-          EOF
-      # Step 9: Clean up
-      - name: Clean up private key
-        run: rm -f private_key
+@@ -1,22 +0,0 @@
+ # Use an official Node.js runtime as the base image
+ FROM node:18-alpine
+ 
+ # Set the working directory in the container
+ WORKDIR /app
+ 
+ RUN apk add --no-cache python3 make g++ pkgconfig cairo-dev pango-dev jpeg-dev giflib-dev librsvg-dev
+ 
+ # Copy package.json and package-lock.json to leverage Docker layer caching
+ COPY package*.json ./
+ 
+ # Install dependencies
+ RUN npm install  --legacy-peer-deps
+ 
+ # Copy the rest of the application code
+ COPY . .
+ 
+ # Expose the port the app runs on
+ EXPOSE 3001
+ 
+ # Define the command to run the app
+ CMD ["node", "index.js"]
