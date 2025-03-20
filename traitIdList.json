@@ -1,0 +1,1742 @@
+[
+  {
+    "id": 1,
+    "type": "Weapons and Gear",
+    "name": "CarroTech",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 2,
+    "type": "Weapons and Gear",
+    "name": "PiranhaPlant Blaster",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 3,
+    "type": "Weapons and Gear",
+    "name": "CrimsonCollar Cape",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 4,
+    "type": "Weapons and Gear",
+    "name": "CrashCable Cluster",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 5,
+    "type": "Weapons and Gear",
+    "name": "HazeBlaze Hammer",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 6,
+    "type": "Weapons and Gear",
+    "name": "Poseidon's Poker",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 7,
+    "type": "Weapons and Gear",
+    "name": "Western Wrangler's Rifle",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 8,
+    "type": "Weapons and Gear",
+    "name": "TimeTail Thrusters",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 9,
+    "type": "Weapons and Gear",
+    "name": "CarrotKendo Katana",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 10,
+    "type": "Weapons and Gear",
+    "name": "ForceHop Pouch",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 11,
+    "type": "Weapons and Gear",
+    "name": "Golden Guardian Throne",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 12,
+    "type": "Weapons and Gear",
+    "name": "Tactical Turret",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 13,
+    "type": "Weapons and Gear",
+    "name": "Mutant Spine Spikes",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 14,
+    "type": "Weapons and Gear",
+    "name": "GothamGuardian Cape",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 15,
+    "type": "Weapons and Gear",
+    "name": "HareBot Helper",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 16,
+    "type": "Weapons and Gear",
+    "name": "Medusa's Pointed Pelerine",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 17,
+    "type": "Weapons and Gear",
+    "name": "SpiderSlicer Claws",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 18,
+    "type": "Weapons and Gear",
+    "name": "Stew Zapper Pack",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 19,
+    "type": "Weapons and Gear",
+    "name": "Golden Pika Tail",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 20,
+    "type": "Weapons and Gear",
+    "name": "Jason's Terror Tools",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 21,
+    "type": "Weapons and Gear",
+    "name": "RoboRabbit Cape",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 22,
+    "type": "Weapons and Gear",
+    "name": "StellarSpike Spine",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 23,
+    "type": "Weapons and Gear",
+    "name": "BrainBoost Tubing",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 24,
+    "type": "Weapons and Gear",
+    "name": "SandStorm Sword",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 25,
+    "type": "Weapons and Gear",
+    "name": "Flaming Phoenix Wings",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 26,
+    "type": "Weapons and Gear",
+    "name": "BowlCape Drape",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 27,
+    "type": "Weapons and Gear",
+    "name": "Toxic Inferno Cannons",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 28,
+    "type": "Weapons and Gear",
+    "name": "WaterWrangler Whirl Power Box",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 29,
+    "type": "Weapons and Gear",
+    "name": "Luminous Carrot Cascade Power Box",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 30,
+    "type": "Weapons and Gear",
+    "name": "Lightning Lash Power Box",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 31,
+    "type": "Weapons and Gear",
+    "name": "BlazeBarrage Power Box",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 32,
+    "type": "Weapons and Gear",
+    "name": "Terra Ascension Aura Power Box",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 33,
+    "type": "Weapons and Gear",
+    "name": "Quantum Leap",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 34,
+    "type": "Weapons and Gear",
+    "name": "Fortune Falls Flurry Power Box",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 35,
+    "type": "Weapons and Gear",
+    "name": "Diamond EarlyBird Scyche Special Weapon",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 36,
+    "type": "Weapons and Gear",
+    "name": "MaxMint Mallet Special Weapon",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 37,
+    "type": "Weapons and Gear",
+    "name": "Golden VIP AK47 Special Weapon",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 38,
+    "type": "Weapons and Gear",
+    "name": "Minter's Guardian Sword Special Weapon",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 39,
+    "type": "Weapons and Gear",
+    "name": "Villain FoxFire Blade Special Weapon",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 40,
+    "type": "Weapons and Gear",
+    "name": "SkyHopper Drone",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 41,
+    "type": "Weapons and Gear",
+    "name": "SpectraFly Drone",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 42,
+    "type": "Weapons and Gear",
+    "name": "GoldenGlider Drone",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 43,
+    "type": "Head",
+    "name": "Alien Ape Controller",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 44,
+    "type": "Head",
+    "name": "Alien Slimy Ears",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 45,
+    "type": "Head",
+    "name": "BasicBolt BunnyEars",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 46,
+    "type": "Head",
+    "name": "BendBunny Brink",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 47,
+    "type": "Head",
+    "name": "Boxed Brain",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 48,
+    "type": "Head",
+    "name": "Brady's Brain Bracer",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 49,
+    "type": "Head",
+    "name": "Brilliant Blue GoggleTop",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 50,
+    "type": "Head",
+    "name": "Bronze StewBot Ears",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 51,
+    "type": "Head",
+    "name": "BronzeBolt Helm",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 52,
+    "type": "Head",
+    "name": "CaptainCam Cap",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 53,
+    "type": "Head",
+    "name": "CarrotCrest Crown",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 54,
+    "type": "Head",
+    "name": "CarrotCrown Cap",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 55,
+    "type": "Head",
+    "name": "Carroteers Keffiyeh",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 56,
+    "type": "Head",
+    "name": "CellShell Crest",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 57,
+    "type": "Head",
+    "name": "CoralKing Crown",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 58,
+    "type": "Head",
+    "name": "CyberCottontail Kabuto",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 59,
+    "type": "Head",
+    "name": "Dark TronTopper Helmet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 60,
+    "type": "Head",
+    "name": "DroneDoc Dome",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 61,
+    "type": "Head",
+    "name": "DuoDisk Dome",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 62,
+    "type": "Head",
+    "name": "FireFull Helmet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 63,
+    "type": "Head",
+    "name": "FocusFrame Beanie",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 64,
+    "type": "Head",
+    "name": "GeishaGear Helm",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 65,
+    "type": "Head",
+    "name": "Golden PikaPeak",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 66,
+    "type": "Head",
+    "name": "Golden Test Dummy Receptors",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 67,
+    "type": "Head",
+    "name": "GreenGoggle Grizzle",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 68,
+    "type": "Head",
+    "name": "Hooper Hears",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 69,
+    "type": "Head",
+    "name": "Ice Intellect",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 70,
+    "type": "Head",
+    "name": "Jason's GreyMatter Glance",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 71,
+    "type": "Head",
+    "name": "KingRabbit Crown",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 72,
+    "type": "Head",
+    "name": "Krusty's Crown",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 73,
+    "type": "Head",
+    "name": "Laser Lid",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 74,
+    "type": "Head",
+    "name": "LibertyLid Top Hat",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 75,
+    "type": "Head",
+    "name": "LicenseLuck Beanie",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 76,
+    "type": "Head",
+    "name": "MandoMecha Mantle",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 77,
+    "type": "Head",
+    "name": "Medusa's Hissing Mantle",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 78,
+    "type": "Head",
+    "name": "Mega Helmet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 79,
+    "type": "Head",
+    "name": "Mockingjay Braid",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 80,
+    "type": "Head",
+    "name": "Mutant Apex Cranium",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 81,
+    "type": "Head",
+    "name": "NightKnight Noggin",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 82,
+    "type": "Head",
+    "name": "Rabbio's Helmet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 83,
+    "type": "Head",
+    "name": "RaggaeRabbit Cap",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 84,
+    "type": "Head",
+    "name": "Rainbow Ice Helm",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 85,
+    "type": "Head",
+    "name": "Royal Ronin Kabuto",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 86,
+    "type": "Head",
+    "name": "SockHop Lucha Mask",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 87,
+    "type": "Head",
+    "name": "Sorcerer's Seer Cap",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 88,
+    "type": "Head",
+    "name": "Steel Super Scalp",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 89,
+    "type": "Head",
+    "name": "TronTopper Helmet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 90,
+    "type": "Head",
+    "name": "TurboTop Helmet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 91,
+    "type": "Head",
+    "name": "Western Felt Hat",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 92,
+    "type": "Head",
+    "name": "White StewBot Ears",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 93,
+    "type": "Head",
+    "name": "WolfShade Mystic Helm",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 94,
+    "type": "Eyes",
+    "name": "Alien Abyss Oculars",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 95,
+    "type": "Eyes",
+    "name": "Annoyed Baller",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 96,
+    "type": "Eyes",
+    "name": "Armored Blinds",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 97,
+    "type": "Eyes",
+    "name": "Awesomo Abyss Stare",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 98,
+    "type": "Eyes",
+    "name": "BlazeSpiral Sight",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 99,
+    "type": "Eyes",
+    "name": "Blue Side Eye",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 100,
+    "type": "Eyes",
+    "name": "BronzeLooker Lenses",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 101,
+    "type": "Eyes",
+    "name": "CitrusGlow Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 102,
+    "type": "Eyes",
+    "name": "DummyDot Sight",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 103,
+    "type": "Eyes",
+    "name": "eye",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 104,
+    "type": "Eyes",
+    "name": "eyes08",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 105,
+    "type": "Eyes",
+    "name": "eyes25",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 106,
+    "type": "Eyes",
+    "name": "eyes26",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 107,
+    "type": "Eyes",
+    "name": "eyes27",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 108,
+    "type": "Eyes",
+    "name": "FuturaBend Focus",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 109,
+    "type": "Eyes",
+    "name": "GandEyes Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 110,
+    "type": "Eyes",
+    "name": "Geisha Optic Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 111,
+    "type": "Eyes",
+    "name": "Golden Pika Peekers",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 112,
+    "type": "Eyes",
+    "name": "Golden Solar Flare Visor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 113,
+    "type": "Eyes",
+    "name": "GothamGlare Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 114,
+    "type": "Eyes",
+    "name": "Green Apathy Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 115,
+    "type": "Eyes",
+    "name": "GreenGlow Glance",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 116,
+    "type": "Eyes",
+    "name": "GridGlow Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 117,
+    "type": "Eyes",
+    "name": "Icy Eyes",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 118,
+    "type": "Eyes",
+    "name": "Jason's MenacingMystery Glare",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 119,
+    "type": "Eyes",
+    "name": "Lashed Look",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 120,
+    "type": "Eyes",
+    "name": "LuchaLibre Look",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 121,
+    "type": "Eyes",
+    "name": "Mean Green",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 122,
+    "type": "Eyes",
+    "name": "MonoScope Vision",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 123,
+    "type": "Eyes",
+    "name": "Mutant Mire Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 124,
+    "type": "Eyes",
+    "name": "NeonNexus Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 125,
+    "type": "Eyes",
+    "name": "OrangeOS Oculars",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 126,
+    "type": "Eyes",
+    "name": "Pink Laser Patch Peeker",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 127,
+    "type": "Eyes",
+    "name": "Poseidon's Peepers",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 128,
+    "type": "Eyes",
+    "name": "PyroPupil Peepers",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 129,
+    "type": "Eyes",
+    "name": "Rainbow Ice Readers",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 130,
+    "type": "Eyes",
+    "name": "RedRage Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 131,
+    "type": "Eyes",
+    "name": "RoseRefractor Gaze",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 132,
+    "type": "Eyes",
+    "name": "Scrutiny Stare",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 133,
+    "type": "Eyes",
+    "name": "SeaSight Sensors",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 134,
+    "type": "Eyes",
+    "name": "ShockGlare Stare",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 135,
+    "type": "Eyes",
+    "name": "Side Eye",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 136,
+    "type": "Eyes",
+    "name": "Steel Sights",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 137,
+    "type": "Eyes",
+    "name": "StewieBot Stare",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 138,
+    "type": "Eyes",
+    "name": "Super Seer",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 139,
+    "type": "Eyes",
+    "name": "TiltedToke Twinkle",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 140,
+    "type": "Eyes",
+    "name": "T-Scan Lenses",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 141,
+    "type": "Eyes",
+    "name": "UnoDangle Damaged Optic",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 142,
+    "type": "Eyes",
+    "name": "Zombie Sam Seeing",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 143,
+    "type": "Special Power",
+    "name": "BlazeBarrage",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 144,
+    "type": "Special Power",
+    "name": "Fortune Falls Flurry",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 145,
+    "type": "Special Power",
+    "name": "Lightning Lash",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 146,
+    "type": "Special Power",
+    "name": "Luminous Carrot Cascade",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 147,
+    "type": "Special Power",
+    "name": "Quantum Leap",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 148,
+    "type": "Special Power",
+    "name": "Terra Ascension Aura",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 149,
+    "type": "Special Power",
+    "name": "WaterWrangler Whirl",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 150,
+    "type": "Background",
+    "name": "Cyber Gray",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 151,
+    "type": "Background",
+    "name": "Green",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 152,
+    "type": "Background",
+    "name": "Lime Green",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 153,
+    "type": "Background",
+    "name": "Mustard",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 154,
+    "type": "Background",
+    "name": "Orange",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 155,
+    "type": "Background",
+    "name": "Pink",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 156,
+    "type": "Background",
+    "name": "Plum Purple",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 157,
+    "type": "Background",
+    "name": "Red",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 158,
+    "type": "Background",
+    "name": "Sky Blue",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 159,
+    "type": "Background",
+    "name": "Tan",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 160,
+    "type": "Background",
+    "name": "Teal",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 161,
+    "type": "Background",
+    "name": "Violet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 162,
+    "type": "Body",
+    "name": "AirBunny Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 163,
+    "type": "Body",
+    "name": "Alien Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 164,
+    "type": "Body",
+    "name": "Amazonian Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 165,
+    "type": "Body",
+    "name": "Argentinian Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 166,
+    "type": "Body",
+    "name": "BareBionic Build",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 167,
+    "type": "Body",
+    "name": "BatBunny Body Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 168,
+    "type": "Body",
+    "name": "BattlerBunny Bodysuit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 169,
+    "type": "Body",
+    "name": "BayBattler Body",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 170,
+    "type": "Body",
+    "name": "Bedouin Bodyplate",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 171,
+    "type": "Body",
+    "name": "Bendy Body",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 172,
+    "type": "Body",
+    "name": "BeskarBunny Plate",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 173,
+    "type": "Body",
+    "name": "BlazeBunny Mech Suit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 174,
+    "type": "Body",
+    "name": "BluTron Barrier",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 175,
+    "type": "Body",
+    "name": "Carrotanium Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 176,
+    "type": "Body",
+    "name": "Cell's Suit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 177,
+    "type": "Body",
+    "name": "CoinQuest Coverall",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 178,
+    "type": "Body",
+    "name": "Cpt.Rabbit Artisan Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 179,
+    "type": "Body",
+    "name": "Dark Tron",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 180,
+    "type": "Body",
+    "name": "FutureFlux Fit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 181,
+    "type": "Body",
+    "name": "Geisha's Guarding Gown",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 182,
+    "type": "Body",
+    "name": "Golden Dummy",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 183,
+    "type": "Body",
+    "name": "Golden PikaGuard",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 184,
+    "type": "Body",
+    "name": "GrayForge Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 185,
+    "type": "Body",
+    "name": "GreenForge Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 186,
+    "type": "Body",
+    "name": "Ice Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 187,
+    "type": "Body",
+    "name": "Juggernaut Jason",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 188,
+    "type": "Body",
+    "name": "Levitate Lifter",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 189,
+    "type": "Body",
+    "name": "LuchaBot",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 190,
+    "type": "Body",
+    "name": "MagentaMach Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 191,
+    "type": "Body",
+    "name": "MegaRabbit Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 192,
+    "type": "Body",
+    "name": "Mutant Mech Mantle",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 193,
+    "type": "Body",
+    "name": "PeaceLeaf Protector",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 194,
+    "type": "Body",
+    "name": "Pearl StewBot Bod",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 195,
+    "type": "Body",
+    "name": "PurpLuxe Plate",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 196,
+    "type": "Body",
+    "name": "Rabbit-O Rig",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 197,
+    "type": "Body",
+    "name": "Rainbow Ice Rig",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 198,
+    "type": "Body",
+    "name": "RebelRed Archer",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 199,
+    "type": "Body",
+    "name": "RoboRabbit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 200,
+    "type": "Body",
+    "name": "RoboRacer Rig",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 201,
+    "type": "Body",
+    "name": "RoboWizard Robe",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 202,
+    "type": "Body",
+    "name": "Royal Rabbit Robe",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 203,
+    "type": "Body",
+    "name": "Royal Samurai Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 204,
+    "type": "Body",
+    "name": "RoyalSea Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 205,
+    "type": "Body",
+    "name": "RubyRonin Samurai Armor",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 206,
+    "type": "Body",
+    "name": "SamCircuit Suit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 207,
+    "type": "Body",
+    "name": "Steel CircusSuit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 208,
+    "type": "Body",
+    "name": "SteelSentry Suit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 209,
+    "type": "Body",
+    "name": "StewBot Shell",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 210,
+    "type": "Body",
+    "name": "StoneStare Suit",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 211,
+    "type": "Body",
+    "name": "Teal TitanPlate",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 212,
+    "type": "Body",
+    "name": "ThunderGod Guard",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 213,
+    "type": "Body",
+    "name": "VioletVessle Vestiture",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 214,
+    "type": "Body",
+    "name": "WoodenSherrif Shell",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 215,
+    "type": "Skull",
+    "name": "Blue Gray",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 216,
+    "type": "Skull",
+    "name": "Brown",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 217,
+    "type": "Skull",
+    "name": "Charcoal Gray",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 218,
+    "type": "Skull",
+    "name": "Garnet",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 219,
+    "type": "Skull",
+    "name": "Gold",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 220,
+    "type": "Skull",
+    "name": "Gray",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 221,
+    "type": "Skull",
+    "name": "Green",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 222,
+    "type": "Skull",
+    "name": "Purple",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 223,
+    "type": "Skull",
+    "name": "Red",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 224,
+    "type": "Skull",
+    "name": "Steel",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 225,
+    "type": "Skull",
+    "name": "Teal",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 226,
+    "type": "Mouth",
+    "name": "Ahhh Orate",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 227,
+    "type": "Mouth",
+    "name": "Alien Activated Aperture",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 228,
+    "type": "Mouth",
+    "name": "Baller's Breath",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 229,
+    "type": "Mouth",
+    "name": "Bendy Bite",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 230,
+    "type": "Mouth",
+    "name": "Bewildered Buccal",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 231,
+    "type": "Mouth",
+    "name": "BlazeBarrier Breather",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 232,
+    "type": "Mouth",
+    "name": "BlipBloop Lips",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 233,
+    "type": "Mouth",
+    "name": "BluntBunny Bite",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 234,
+    "type": "Mouth",
+    "name": "BountyBreath Barrier",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 235,
+    "type": "Mouth",
+    "name": "ButtonBros Bite",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 236,
+    "type": "Mouth",
+    "name": "Cardboard Cutout Chatter",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 237,
+    "type": "Mouth",
+    "name": "Carrot Chomp",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 238,
+    "type": "Mouth",
+    "name": "CarrotGrenade Gnaw",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 239,
+    "type": "Mouth",
+    "name": "Circus Smirk",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 240,
+    "type": "Mouth",
+    "name": "CrimsonCloth Bandanna",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 241,
+    "type": "Mouth",
+    "name": "Dark TronTalker",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 242,
+    "type": "Mouth",
+    "name": "GadotGoddess Grin",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 243,
+    "type": "Mouth",
+    "name": "Geisha's Grin",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 244,
+    "type": "Mouth",
+    "name": "Golden Grill Grin",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 245,
+    "type": "Mouth",
+    "name": "Golden Spark Grin",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 246,
+    "type": "Mouth",
+    "name": "Golden Test Dummy Chompers",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 247,
+    "type": "Mouth",
+    "name": "Gridiron Guard",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 248,
+    "type": "Mouth",
+    "name": "Icy Frostbite",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 249,
+    "type": "Mouth",
+    "name": "Jason's Jaw",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 250,
+    "type": "Mouth",
+    "name": "Jolly Smile",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 251,
+    "type": "Mouth",
+    "name": "Lip Nibble",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 252,
+    "type": "Mouth",
+    "name": "Mocking Solo Smirk",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 253,
+    "type": "Mouth",
+    "name": "Mutant Muncher",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 254,
+    "type": "Mouth",
+    "name": "Nuclear Beam Blast",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 255,
+    "type": "Mouth",
+    "name": "Nuclear Orange Blast",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 256,
+    "type": "Mouth",
+    "name": "Nuclear PinkPulse Blast",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 257,
+    "type": "Mouth",
+    "name": "Olympian Orate",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 258,
+    "type": "Mouth",
+    "name": "Predator Furry Fangs",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 259,
+    "type": "Mouth",
+    "name": "Rainbow Frostbite",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 260,
+    "type": "Mouth",
+    "name": "Rainbow Rabbit Grill",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 261,
+    "type": "Mouth",
+    "name": "RedRonin Mask",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 262,
+    "type": "Mouth",
+    "name": "Royal Samurai Respire",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 263,
+    "type": "Mouth",
+    "name": "Seagod Mask",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 264,
+    "type": "Mouth",
+    "name": "Serpent Smirk",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 265,
+    "type": "Mouth",
+    "name": "SideBite Smirk",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 266,
+    "type": "Mouth",
+    "name": "SlyGuy Smirk",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 267,
+    "type": "Mouth",
+    "name": "Smirk of Steel",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 268,
+    "type": "Mouth",
+    "name": "Steadfast",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 269,
+    "type": "Mouth",
+    "name": "Steel Lock Jaw",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 270,
+    "type": "Mouth",
+    "name": "StewBot Smirk",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 271,
+    "type": "Mouth",
+    "name": "TechCarrot Mask",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 272,
+    "type": "Mouth",
+    "name": "TentaTaste Munch",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 273,
+    "type": "Mouth",
+    "name": "Terrifying Titanium Teeth",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 274,
+    "type": "Mouth",
+    "name": "Tron Teeth",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 275,
+    "type": "Mouth",
+    "name": "Tropic Tongue",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 276,
+    "type": "Mouth",
+    "name": "VisionVore Lazer",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 277,
+    "type": "Mouth",
+    "name": "Wizard Whiskers",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 278,
+    "type": "Mouth",
+    "name": "Zombie Sam Snarl",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 279,
+    "type": "Mouth",
+    "name": "GoldenGlider",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 280,
+    "type": "Mouth",
+    "name": "SkyHopper",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 281,
+    "type": "Mouth",
+    "name": "SpectraFly",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 282,
+    "type": "Head",
+    "name": "Alien Slimy Ears upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 283,
+    "type": "Head",
+    "name": "BasicBolt BunnyEars upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 284,
+    "type": "Head",
+    "name": "Brady's Brain Bracer upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 285,
+    "type": "Head",
+    "name": "Brady's Brain Bracer upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 286,
+    "type": "Head",
+    "name": "Brady's Brain Bracer upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 287,
+    "type": "Body",
+    "name": "FutureFlux Fit upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 288,
+    "type": "Body",
+    "name": "GrayForge Armor upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 289,
+    "type": "Body",
+    "name": "Steel CircusSuit upgraded",
+    "upgradeAvailable": false
+  },
+  {
+    "id": 290,
+    "type": "Body",
+    "name": "LuchaBot upgraded",
+    "upgradeAvailable": false
+  }
+]
