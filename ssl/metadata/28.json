@@ -1,0 +1,44 @@
+{
+  "name": "Robotic Rabbit #28",
+  "description": "The Robotic Rabbit Syndicate is a group of Robotic Rabbits dedicated to fighting crime and protecting their world from evil villains.",
+  "image": "https://robotic-rabbit-metadata-live-replica04.s3.amazonaws.com/28.png",
+  "dna": "4b01ec22165455de406ec6374d94172538547845",
+  "edition": 28,
+  "date": 1686677136000,
+  "nft_type": "og-mint",
+  "attributes": [
+    {
+      "trait_type": "Background",
+      "value": "Orange"
+    },
+    {
+      "trait_type": "Special Power",
+      "value": "None"
+    },
+    {
+      "trait_type": "Weapons and Gear",
+      "value": "None"
+    },
+    {
+      "trait_type": "Body",
+      "value": "Steel CircusSuit upgraded"
+    },
+    {
+      "trait_type": "Skull",
+      "value": "Brown"
+    },
+    {
+      "trait_type": "Head",
+      "value": "GreenGoggle Grizzle"
+    },
+    {
+      "trait_type": "Eyes",
+      "value": "T-Scan Lenses"
+    },
+    {
+      "trait_type": "Mouth",
+      "value": "Golden Spark Grin"
+    }
+  ],
+  "compiler": "HashLips Art Engine"
+}
