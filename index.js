@@ -70,6 +70,7 @@ try {
     console.error("Error loading weaponList.json:", err);
 }
 
+
 const traitIdListPath = path.join(__dirname, 'traitIdList.json');
 let traitIdList = [];
 
@@ -162,7 +163,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['https://api.roboticrabbitsyndicate.io', 'https://localhost:3000'],
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://localhost:3000', 'https://adminrabbit.vercel.app/'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
@@ -1854,6 +1855,35 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
         // Upload image to S3
         const imgPathS3 = await uploadToS3ImgArmories(imagePath, nftId);
         console.log("Image uploaded to S3");
+
+
+        try {
+            // Read the existing weapon list
+            let weaponListData = fs.readFileSync(weaponListPath, 'utf-8');
+            let weaponList = JSON.parse(weaponListData);
+
+            // Check if nftId exists in weaponList
+            if (weaponList[nftId-1] && weaponList[nftId-1].length > 0) {
+                // Replace existing value
+                console.log(`Replacing ${weaponList[nftId-1]} with ${nftName}`);
+                weaponList[nftId-1] = nftName;
+            } else {
+                // Append if nftId is not found or is empty
+                if (!weaponList.includes(nftName)) {
+                    weaponList[nftId-1] = nftName;
+                    console.log(`Successfully added ${nftName} to weaponList.json`);
+                } else {
+                    console.log(`${nftName} already exists in weaponList.json`);
+                    return res.status(400).json({ error: 'Name already exists' });
+                }
+            }
+
+            // Write the updated list back to the file
+            fs.writeFileSync(weaponListPath, JSON.stringify(weaponList, null, 2), 'utf-8');
+        } catch (err) {
+            console.error("Error updating weaponList.json:", err);
+        }
+
 
         // Create and save metadata
         const metadata = {
