@@ -292,19 +292,6 @@ const ABI = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "_idMatcher",
-				"type": "uint256"
-			}
-		],
-		"name": "set_idMatcher",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "operator",
 				"type": "address"
@@ -762,19 +749,6 @@ const ABI = [
 		"type": "function"
 	},
 	{
-		"inputs": [],
-		"name": "idMatcher",
-		"outputs": [
-			{
-				"internalType": "uint256",
-				"name": "",
-				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
 		"inputs": [
 			{
 				"internalType": "address",
@@ -978,19 +952,6 @@ const ABI = [
 				"internalType": "address",
 				"name": "",
 				"type": "address"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "path",
-		"outputs": [
-			{
-				"internalType": "string",
-				"name": "",
-				"type": "string"
 			}
 		],
 		"stateMutability": "view",
@@ -1250,6 +1211,6 @@ const ABI = [
 	}
 ];
 
-const contractAddress = "0xd192394C531F17Eecf8920AF1610Ef6fF47Cc65e";
+const contractAddress = "0x09A3CB8CcEb1d9e75f1a0a8EfCf10e2609F915D6";
 
 module.exports = { ABI, contractAddress };
