@@ -42,12 +42,11 @@ AWS.config.update({
 
 
 // Sanitize function to replace special characters
-const sanitizeFilename = (name) => name.replace(/[^a-zA-Z0-9-_\.]/g, "_");
+//const sanitizeFilename = (name) => name.replace(/[^a-zA-Z0-9-_\.]/g, "_");
 
 // Ensure image filename is safe
-const sanitizedImageName = sanitizeFilename(updatedNft.image);
+//const sanitizedImageName = sanitizeFilename(updatedNft.image);
 //updatedNft.image = `your_image_path/${sanitizedImageName}`;
-
 
 const armoryBucket = process.env.ARMORY_BUCKET;
 const armoryAssets = process.env.ARMORY_ASSETS;
@@ -2091,16 +2090,10 @@ router.post("/update-nft", cors(corsOptions), async (req, res) => {
             fs.mkdirSync(folderPath, { recursive: true });
         }
 
-        /*const fileName = `${updatedNft.edition}.json`;
+        // Generate a unique filename using the NFT name or timestamp
+        const fileName = `${updatedNft.edition}.json`;
         const filePath = path.join(folderPath, fileName);
-        fs.writeFileSync(filePath, JSON.stringify(updatedNft, null, 2), "utf8");*/
-
-         // Sanitize filename to avoid issues
-         const sanitizeFilename = (name) => name.replace(/[^a-zA-Z0-9-_]/g, "_");
-         const fileName = sanitizeFilename(updatedNft.edition) + ".json";
-         const filePath = path.join(folderPath, fileName);
- 
-         fs.writeFileSync(filePath, JSON.stringify(updatedNft, null, 2), "utf8");
+        fs.writeFileSync(filePath, JSON.stringify(updatedNft, null, 2), "utf8");
 
         // Save the JSON file
 
