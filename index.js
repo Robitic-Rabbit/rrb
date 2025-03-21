@@ -46,7 +46,7 @@ const sanitizeFilename = (name) => name.replace(/[^a-zA-Z0-9-_\.]/g, "_");
 
 // Ensure image filename is safe
 const sanitizedImageName = sanitizeFilename(updatedNft.image);
-updatedNft.image = `your_image_path/${sanitizedImageName}`;
+//updatedNft.image = `your_image_path/${sanitizedImageName}`;
 
 
 const armoryBucket = process.env.ARMORY_BUCKET;
