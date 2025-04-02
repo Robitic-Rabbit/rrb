@@ -13,6 +13,7 @@ module.exports = {
   networks: {
     polygonMumbai: {
       url: "https://holy-burned-sheet.optimism.quiknode.pro/f7e9efbb6f5a0385ae4c3a55b94bb67eca5e31bc/",
+      //url: "https://pulsechain-rpc.publicnode.com",
       accounts: [signer],
     },
   },
