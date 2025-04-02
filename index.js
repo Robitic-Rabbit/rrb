@@ -56,6 +56,7 @@ const syndicateAssets = process.env.SYNDICATE_ASSETS;
 const s3 = new AWS.S3();
 
 const uploadDir = path.join(__dirname, '/uploads/');
+const uploadDir2 = path.join(__dirname, '/weaponNftImage/');
 
 // Ensure the uploads folder exists
 if (!fs.existsSync(uploadDir)) {
@@ -77,7 +78,6 @@ try {
 } catch (err) {
     console.error("Error loading weaponList.json:", err);
 }
-
 
 const traitIdListPath = path.join(__dirname, 'traitIdList.json');
 let traitIdList = [];
@@ -171,7 +171,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://localhost:3000', 'https://adminrabbit.vercel.app/'],
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'http://localhost:3000', 'https://adminrabbit.vercel.app/', 'http://localhost:8080/'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
@@ -1870,16 +1870,71 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
             let weaponListData = fs.readFileSync(weaponListPath, 'utf-8');
             let weaponList = JSON.parse(weaponListData);
 
+            let traitIdListData = fs.readFileSync(traitIdListPath, 'utf-8');
+            let traitIdList = JSON.parse(traitIdListData);
+
+
+            /*   // Check if the name already exists in the trait list
+               const nameExists = traitIdList.some(item => item.name === nftName);
+               if (nameExists) {
+                   console.log(`${nftName} already exists in traitIdList.json`);
+                   // Don't return here, just note the error
+                   return res.status(400).json({ error: 'Name already exists in trait list' });
+               }
+   */
+
+
             // Check if nftId exists in weaponList
-            if (weaponList[nftId-1] && weaponList[nftId-1].length > 0) {
+            if (weaponList[nftId - 1] && weaponList[nftId - 1].length > 0) {
                 // Replace existing value
-                console.log(`Replacing ${weaponList[nftId-1]} with ${nftName}`);
-                weaponList[nftId-1] = nftName;
+                console.log(`Replacing ${weaponList[nftId - 1]} with ${nftName}`);
+                weaponList[nftId - 1] = nftName;
+
+                // Determine the correct type for the trait
+                let traitType = nftType;
+                if (nftType === "Special Gear" || nftType === "Special Weapon") {
+                    traitType = "Weapons and Gear";
+                }
+
+
+                const newTrait = {
+                    id: traitIdList.length > 0 ? Math.max(...traitIdList.map(item => item.id)) : 1,
+                    type: traitType,
+                    name: nftName,
+                    upgradeAvailable: false
+                };
+                // Add the new trait to the list
+                delete traitIdList[Number(traitIdList.length) - 1];
+                traitIdList[Number(traitIdList.length) - 1] = newTrait;
+
+
+
             } else {
                 // Append if nftId is not found or is empty
                 if (!weaponList.includes(nftName)) {
-                    weaponList[nftId-1] = nftName;
+                    weaponList[nftId - 1] = nftName;
+
+                    // Determine the correct type for the trait
+                    let traitType = nftType;
+                    if (nftType === "Special Gear" || nftType === "Special Weapon") {
+                        traitType = "Weapons and Gear";
+                    }
+
+
+                    // Create new trait entry only if name doesn't exist
+                    const newTrait = {
+                        id: traitIdList.length > 0 ? Math.max(...traitIdList.map(item => item.id)) + 1 : 1,
+                        type: traitType,
+                        name: nftName,
+                        upgradeAvailable: false
+                    };
+
+                    // Add the new trait to the list
+                    traitIdList.push(newTrait);
+
                     console.log(`Successfully added ${nftName} to weaponList.json`);
+                    console.log(`Successfully added ${nftName} to traitIdList.json`);
+
                 } else {
                     console.log(`${nftName} already exists in weaponList.json`);
                     return res.status(400).json({ error: 'Name already exists' });
@@ -1888,6 +1943,11 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
 
             // Write the updated list back to the file
             fs.writeFileSync(weaponListPath, JSON.stringify(weaponList, null, 2), 'utf-8');
+
+            // Write the updated list back to the file
+            fs.writeFileSync(traitIdListPath, JSON.stringify(traitIdList, null, 2), 'utf-8');
+
+
         } catch (err) {
             console.error("Error updating weaponList.json:", err);
         }
@@ -1948,12 +2008,23 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
         });
 
         // Ensure the weaponType exists in the JSON file
-        if (!jsonData[nftType]) {
-            return res.status(400).json({ error: 'Invalid weapon type' });
+        let __nftType = nftType;
+        // Determine the correct type for the trait
+        if (nftType === "Special Gear" || nftType === "Special Weapon") {
+            __nftType = "Weapon and Gear";
+            console.log("traitType 1 : " + nftType);
+
         }
 
-        // Append the new ID to the requested type
-        jsonData[nftType].push(nftId);
+        if (jsonData[__nftType]) {
+
+            // Append the new ID to the requested type
+            jsonData[__nftType].push(nftId);
+        }
+
+
+
+
 
         // Write updated data back to file
         try {
@@ -1976,6 +2047,37 @@ router.post('/armoryCreation', cors(corsOptions), async (req, res) => {
     }
 });
 
+router.post('/armoryCreation2', cors(corsOptions), async (req, res) => {
+    try {
+        if (!req.body || !req.body.file) {
+            return res.status(400).json({ error: 'No file received' });
+        }
+
+        const { slectedId } = req.body;
+        console.log("nftId:", slectedId);
+
+        // Decode and save the image
+        const fileBase64 = req.body.file.replace(/^data:image\/\w+;base64,/, '');
+        const imageBuffer = Buffer.from(fileBase64, 'base64');
+        const imagePath = path.join(uploadDir2, `${slectedId}.png`);
+
+        fs.writeFileSync(imagePath, imageBuffer);
+        console.log('File saved as:', imagePath);
+
+        // Upload image to S3
+        const imgPathS3 = await uploadToS3ImgArmories(imagePath, slectedId);
+        console.log("Image uploaded to S3");
+
+        res.json({
+            message: "NFT metadata created and uploaded successfully",
+        });
+
+
+    } catch (error) {
+        console.error('Error processing NFT:', error);
+        res.status(500).json({ error: 'Failed to process NFT. Please try again.' });
+    }
+});
 
 async function uploadToS3ArmoriesJson(params) {
     try {
@@ -2115,6 +2217,77 @@ router.post("/update-nft", cors(corsOptions), async (req, res) => {
     }
 });
 
+router.post("/upload-nft-image", cors(corsOptions), async (req, res) => {
+    try {
+        if (!req.files || !req.files.image) {
+            return res.status(400).json({ message: "No image file uploaded", success: false });
+        }
+
+        if (!req.body.metadata) {
+            return res.status(400).json({ message: "No metadata provided", success: false });
+        }
+
+        const updatedNft = JSON.parse(req.body.metadata); // Parse the metadata string
+        console.log("updatedNft :" + JSON.stringify(updatedNft));
+
+        // Ensure the folder exists
+        const folderPath = path.join(__dirname, "adminEditedImages");
+        if (!fs.existsSync(folderPath)) {
+            fs.mkdirSync(folderPath, { recursive: true });
+        }
+
+        console.log("updatedNft.edition : " + updatedNft.edition);
+
+        const fileName = `${updatedNft.edition}.json`;
+        const filePath = path.join(folderPath, fileName);
+
+        const imageFile = req.files.image;
+        const imageName = `${updatedNft.edition}.png`;
+        const imagePath = path.join(folderPath, imageName);
+
+        // Save the image
+        await imageFile.mv(imagePath);
+
+        // Upload image to S3
+        const imgUploadAdminPanel = await uploadToS3Img(imagePath, updatedNft.edition);
+        console.log("imgUploadAdminPanel : " + imgUploadAdminPanel);
+
+        // Update the NFT with new image URL
+        updatedNft.image = imgUploadAdminPanel;
+
+        // Save updated metadata
+        fs.writeFileSync(filePath, JSON.stringify(updatedNft, null, 2), "utf8");
+
+        // Upload metadata to S3
+        const fileContent = fs.readFileSync(filePath, 'utf8');
+        const metadataBuffer = Buffer.from(fileContent);
+
+        const s3Params = {
+            Bucket: syndicateBucket,
+            Key: `${updatedNft.edition}.json`,
+            Body: metadataBuffer,
+            ContentType: "application/json",
+        };
+
+        await s3.upload(s3Params).promise();
+
+        // Return the updated NFT data including the new image URL
+        res.json({
+            message: "NFT image updated successfully",
+            success: true,
+            nft: updatedNft,  // Send back the full updated NFT
+            imageUrl: imgUploadAdminPanel  // Also send just the image URL
+        });
+
+    } catch (error) {
+        console.error("Error updating NFT image:", error);
+        return res.status(500).json({
+            message: "Internal Server Error",
+            success: false,
+            error: error.message
+        });
+    }
+});
 //.................END ADMIN PANEL.................
 
 router.get('/check', cors(corsOptions), async (req, res) => {
