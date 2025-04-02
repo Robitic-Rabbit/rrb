@@ -1211,6 +1211,6 @@ const ABI = [
 	}
 ];
 
-const contractAddress = "0x09A3CB8CcEb1d9e75f1a0a8EfCf10e2609F915D6";
+const contractAddress = "0x37058c0e70CF59aa57C5D322AaF4461774CF75fA";
 
 module.exports = { ABI, contractAddress };
