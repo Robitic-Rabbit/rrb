@@ -1738,5 +1738,11 @@
     "type": "Body",
     "name": "LuchaBot upgraded",
     "upgradeAvailable": false
+  },
+  {
+    "id": 291,
+    "type": "Body",
+    "name": "GrayForge Armor upgraded",
+    "upgradeAvailable": false
   }
 ]
