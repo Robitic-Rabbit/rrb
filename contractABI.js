@@ -1,4 +1,4 @@
-export const ABI: any[] = [
+const ABI = [
 	{
 		"inputs": [
 			{
@@ -1211,4 +1211,6 @@ export const ABI: any[] = [
 	}
 ];
 
-export const contractAddress: string = "0x39607d30f10B7A802695894a49D68Cd6de278792";
+const contractAddress = "0x39607d30f10B7A802695894a49D68Cd6de278792";
+
+module.exports = { ABI, contractAddress };
