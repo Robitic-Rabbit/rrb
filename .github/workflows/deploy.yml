@@ -60,7 +60,7 @@ jobs:
             docker run -d --name rrs-be \
               -p 5000 \
               -p 3001 \
-              --network rrs \
+              --network RRS \
               --log-driver json-file \
               --log-opt max-size=100m \
               --log-opt max-file=5 \
@@ -75,7 +75,7 @@ jobs:
             docker rm log-viewer || true
             docker run -d \
               --name log-viewer \
-              --network rrs \
+              --network RRS \
               -p 8080:8080 \
               -v /var/run/docker.sock:/var/run/docker.sock \
               -e DOZZLE_AUTH=admin:${{ secrets.DOZZLE_PASSWORD || 'changepassword' }} \
@@ -88,7 +88,7 @@ jobs:
             docker rm loki || true
             docker run -d \
               --name loki \
-              --network rrs \
+              --network RRS \
               -p 3100:3100 \
               --restart unless-stopped \
               grafana/loki:latest
