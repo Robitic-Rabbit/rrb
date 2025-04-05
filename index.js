@@ -35,6 +35,8 @@ app.use(express.urlencoded({ extended: true })); // ✅ Optional for form data
 getSecrets()
   .then(() => {
 
+    console.log("env...............................................", process.env.AWS_ACCESS_KEY_ID)
+
 // Configure AWS
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
