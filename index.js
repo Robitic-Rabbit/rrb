@@ -171,7 +171,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'http://localhost:3000', 'https://adminrabbit.vercel.app/', 'http://localhost:8080/'],
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
