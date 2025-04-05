@@ -12,7 +12,7 @@ module.exports = {
   solidity: "0.8.19",
   networks: {
     polygonMumbai: {
-      url: "https://sepolia.infura.io/v3/9aad89c8e515457ab8b7805f5da593ea",
+      url: "https://holy-burned-sheet.optimism.quiknode.pro/f7e9efbb6f5a0385ae4c3a55b94bb67eca5e31bc/",
       //url: "https://pulsechain-rpc.publicnode.com",
       accounts: [signer],
     },
