@@ -100,7 +100,7 @@ jobs:
             
             # Show running containers to verify deployment
             docker ps
-EOF
+          EOF
       
       # Step 8: Clean up
       - name: Clean up private key  
