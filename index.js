@@ -16,6 +16,7 @@ const hre = require("hardhat");
 const { ethers } = require("hardhat");
 const axios = require('axios');
 const AWS = require('aws-sdk');
+const { getSecrets } = require('./vault-config');
 const { createCanvas, loadImage } = require('canvas');
 //const { imageMappingsFile } = require('./imageMappings.json');
 const imageMappings = require('./imageMappings.json');
@@ -27,7 +28,7 @@ app.use(bodyParser.json({ limit: '50mb' }));
 // Set the limit to 50MB for URL-encoded payloads
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use("/upgradedTraits", express.static(path.join(__dirname, "upgradedTraits")));
-
+await getSecrets();
 
 app.use(express.json()); // ✅ Ensures JSON body parsing
 app.use(express.urlencoded({ extended: true })); // ✅ Optional for form data
