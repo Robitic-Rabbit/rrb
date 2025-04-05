@@ -28,11 +28,12 @@ app.use(bodyParser.json({ limit: '50mb' }));
 // Set the limit to 50MB for URL-encoded payloads
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use("/upgradedTraits", express.static(path.join(__dirname, "upgradedTraits")));
-await getSecrets();
 
 app.use(express.json()); // ✅ Ensures JSON body parsing
 app.use(express.urlencoded({ extended: true })); // ✅ Optional for form data
 
+getSecrets()
+  .then(() => {
 
 // Configure AWS
 AWS.config.update({
@@ -2400,3 +2401,10 @@ async function upgradeTraitsByAdmin(traitId, traitName, traitType, res) {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+
+  })
+.catch(err => {
+    console.error("Failed to load secrets:", err);
+    process.exit(1);
+  });
+
