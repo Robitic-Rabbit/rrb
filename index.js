@@ -12,8 +12,8 @@ const which = require('which');
 const { spawn } = require('child_process');
 const { REFUSED } = require('dns');
 const upload = require('express-fileupload');
-const hre = require("hardhat");
-const { ethers } = require("hardhat");
+// const hre = require("hardhat");
+// const { ethers } = require("hardhat");
 const axios = require('axios');
 const AWS = require('aws-sdk');
 const { getSecrets } = require('./vault-config');
@@ -36,6 +36,9 @@ getSecrets()
   .then(() => {
 
     console.log("env...............................................", process.env.AWS_ACCESS_KEY_ID)
+
+    const hre = require("hardhat");
+    const { ethers } = require("hardhat");
 
 // Configure AWS
 AWS.config.update({
