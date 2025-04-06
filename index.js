@@ -12,10 +12,11 @@ const which = require('which');
 const { spawn } = require('child_process');
 const { REFUSED } = require('dns');
 const upload = require('express-fileupload');
-const hre = require("hardhat");
-const { ethers } = require("hardhat");
+// const hre = require("hardhat");
+// const { ethers } = require("hardhat");
 const axios = require('axios');
 const AWS = require('aws-sdk');
+const { getSecrets } = require('./vault-config');
 const { createCanvas, loadImage } = require('canvas');
 //const { imageMappingsFile } = require('./imageMappings.json');
 const imageMappings = require('./imageMappings.json');
@@ -28,10 +29,8 @@ app.use(bodyParser.json({ limit: '50mb' }));
 app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 app.use("/upgradedTraits", express.static(path.join(__dirname, "upgradedTraits")));
 
-
 app.use(express.json()); // ✅ Ensures JSON body parsing
 app.use(express.urlencoded({ extended: true })); // ✅ Optional for form data
-
 
 getSecrets()
   .then(() => {
@@ -49,16 +48,17 @@ AWS.config.update({
 });
 
 
+// Sanitize function to replace special characters
+//const sanitizeFilename = (name) => name.replace(/[^a-zA-Z0-9-_\.]/g, "_");
+
+// Ensure image filename is safe
+//const sanitizedImageName = sanitizeFilename(updatedNft.image);
+//updatedNft.image = `your_image_path/${sanitizedImageName}`;
+
 const armoryBucket = process.env.ARMORY_BUCKET;
 const armoryAssets = process.env.ARMORY_ASSETS;
 const syndicateBucket = process.env.SYNDICATE_BUCKET;
 const syndicateAssets = process.env.SYNDICATE_ASSETS;
-
-//SSL
-/*const syndicateBucket = process.env.CRT;
-const syndicateAssets = process.env.KEY;
-const syndicateBucket = process.env.CABUNDLE;*/
-
 
 const s3 = new AWS.S3();
 
@@ -158,6 +158,12 @@ async function uploadToS3Img(filePath, tokenId) {
     }
 }
 
+// Use the JWT key
+const pinataSDK = require('@pinata/sdk');
+//const { verifyMessage } = require('ethers');
+const pinata = new pinataSDK({ pinataJWTKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySW5mb3JtYXRpb24iOnsiaWQiOiIwOGYyMjVmNi01ZjVmLTQ1MmEtYWIzNS1kNWNhMmE4ZjBhMjUiLCJlbWFpbCI6ImNyb3Nza2l0dGllc25mdHNAZ21haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsInBpbl9wb2xpY3kiOnsicmVnaW9ucyI6W3siZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiRlJBMSJ9LHsiZGVzaXJlZFJlcGxpY2F0aW9uQ291bnQiOjEsImlkIjoiTllDMSJ9XSwidmVyc2lvbiI6MX0sIm1mYV9lbmFibGVkIjpmYWxzZSwic3RhdHVzIjoiQUNUSVZFIn0sImF1dGhlbnRpY2F0aW9uVHlwZSI6InNjb3BlZEtleSIsInNjb3BlZEtleUtleSI6IjIyYTc5N2RlOGQ0MDc5M2U4ZjNjIiwic2NvcGVkS2V5U2VjcmV0IjoiMDdjNDUwY2IxMTQ4MWRiZjA3YjI4ZTU3NGFlYzZjOTlmYTQwZGIxMzBiZGQxYTczNmUxMGRmYWRiODcyYjQ4OSIsImV4cCI6MTc1MzIwMDU1NX0.VpcgwYgOUj8by3J57ew6GFCf0HXOGSq-31r0JbLqisE' });
+
+
 // Security best practices
 app.use(helmet());
 app.use(upload());
@@ -200,7 +206,7 @@ const router = express.Router();
 
 const clients = []; // Store active connections for SSE
 
-router.get('/events', async (req, res) => { // Add CORS middleware
+router.get('/events', cors(corsOptions), async (req, res) => { // Add CORS middleware
     res.setHeader('Content-Type', 'text/event-stream');
     res.setHeader('Cache-Control', 'no-cache');
     res.setHeader('Connection', 'keep-alive');
@@ -1646,6 +1652,7 @@ function getTraitId(selectedUpgradedTrait) {
     return trait.id;
 }
 
+
 router.post('/upgradeExistingTrait', cors(corsOptions), async (req, res) => {
 
     try {
@@ -1836,6 +1843,7 @@ async function saveAndUploadMetadata(tokenId, metadata) {
 }
 
 //.................END IINVENTORY.................
+
 
 //.................START ADMIN PANEL.................
 
@@ -2398,8 +2406,10 @@ async function upgradeTraitsByAdmin(traitId, traitName, traitType, res) {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
-})
+
+  })
 .catch(err => {
     console.error("Failed to load secrets:", err);
     process.exit(1);
   });
+
