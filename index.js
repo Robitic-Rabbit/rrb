@@ -156,7 +156,8 @@ app.use(helmet());
 app.use(upload());
 
 // CORS configuration
-app.use(cors());
+//app.use(cors());
+
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -164,13 +165,24 @@ app.use((req, res, next) => {
     next();
 });
 
-var corsOptions = {
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // handle preflight
+
+const corsOptions = {
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/'], // allow frontend origin
+    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    optionsSuccessStatus: 204
+  };
+
+/*var corsOptions = {
     origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
     exposedHeaders: ["Content-Type"],
-};
+};*/
 
 // Body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }));
