@@ -33,6 +33,14 @@ app.use(express.json()); // ✅ Ensures JSON body parsing
 app.use(express.urlencoded({ extended: true })); // ✅ Optional for form data
 
 
+getSecrets()
+  .then(() => {
+
+    console.log("env...............................................", process.env.AWS_ACCESS_KEY_ID)
+
+    const hre = require("hardhat");
+    const { ethers } = require("hardhat");
+
 // Configure AWS
 AWS.config.update({
     accessKeyId: process.env.AWS_ACCESS_KEY_ID,
@@ -150,14 +158,12 @@ async function uploadToS3Img(filePath, tokenId) {
     }
 }
 
-
 // Security best practices
 app.use(helmet());
 app.use(upload());
 
 // CORS configuration
-//app.use(cors());
-
+app.use(cors());
 app.use((req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
@@ -165,24 +171,13 @@ app.use((req, res, next) => {
     next();
 });
 
-
-app.use(cors(corsOptions));
-app.options('*', cors(corsOptions)); // handle preflight
-
-const corsOptions = {
-    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/'], // allow frontend origin
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    optionsSuccessStatus: 204
-  };
-
-/*var corsOptions = {
+var corsOptions = {
     origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
     exposedHeaders: ["Content-Type"],
-};*/
+};
 
 // Body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -2403,3 +2398,8 @@ async function upgradeTraitsByAdmin(traitId, traitName, traitType, res) {
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
+})
+.catch(err => {
+    console.error("Failed to load secrets:", err);
+    process.exit(1);
+  });
