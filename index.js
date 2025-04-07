@@ -458,6 +458,7 @@ router.post('/addDrone', cors(corsOptions), async (req, res) => {
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
+                ...process.env,
                 CHAIN_ID: req.body.selectedNetwork,
                 USER_ADDRESS: req.body.userAddress_server,
                 _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
