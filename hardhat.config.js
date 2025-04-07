@@ -6,7 +6,7 @@ require("@nomicfoundation/hardhat-toolbox");
 const signer = process.env.SIGN;
 const SCANPOLY = process.env.SCANPOLY;
 const SCANPULSE = process.env.SCANPULSE;
-console.log("read signer : " + signer);
+//console.log("read signer : " + signer);
 
 
 module.exports = {
