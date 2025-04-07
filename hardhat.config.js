@@ -1,7 +1,7 @@
 /** @type import('hardhat/config').HardhatUserConfig */
 require("@nomicfoundation/hardhat-toolbox");
-const dotenv = require('dotenv');
-dotenv.config();
+//const dotenv = require('dotenv');
+//dotenv.config();
 
 const signer = process.env.SIGN;
 const SCANPOLY = process.env.SCANPOLY;
