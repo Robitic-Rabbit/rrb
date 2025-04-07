@@ -627,7 +627,7 @@ router.post('/removeDrone', cors(corsOptions), async (req, res) => {
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-              ...process.env
+              ...process.env,
                 CHAIN_ID: req.body.selectededNetwork,
                 USER_ADDRESS: req.body.userAddress,
                 _SELECTED_TOKEN_ID: req.body.selectedTokenId_server,
@@ -782,7 +782,7 @@ router.post('/changeSyndicateMetadata_SP', cors(corsOptions), async (req, res) =
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-              ...process.env
+              ...process.env,
                 CHAIN_ID: req.body.selectededNetwork,
                 USER_ADDRESS: req.body.userAddress,
                 _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
@@ -970,7 +970,7 @@ router.post('/changeSyndicateMetadata_WG', cors(corsOptions), async (req, res) =
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-              ...process.env
+              ...process.env,
                 CHAIN_ID: req.body.selectededNetwork,
                 USER_ADDRESS: req.body.userAddress,
                 _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
@@ -1155,7 +1155,7 @@ router.post('/burn_SP', cors(corsOptions), async (req, res) => {
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-              ...process.env
+              ...process.env,
                 _CHAIN_ID: req.body.selectedNetwork,
                 _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
                 _BURNING_SPECIAL: BURNING_SPECIAL_ID,
@@ -1346,7 +1346,7 @@ router.post('/burn_WP', cors(corsOptions), async (req, res) => {
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-              ...process.env
+              ...process.env,
                 _CHAIN_ID: req.body.selectedNetwork,
                 _SELECTED_TOKEN_ID: SELECTED_TOKEN_ID,
                 _BURNING_SPECIAL: BURNING_WEAPON_ID,
@@ -1701,7 +1701,7 @@ router.post('/upgradeExistingTrait', cors(corsOptions), async (req, res) => {
             cwd: /*deployScriptPath8*/__dirname,
             env: {
                 // Pass variables as environment variables
-              ...process.env
+              ...process.env,
                 traitId: traitId,
                 nftId: tokenId,
                 USER_ADDRESS: userAddress,
