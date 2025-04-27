@@ -2,19 +2,6 @@ const ABISyndicate = [
 	{
 		"inputs": [
 			{
-				"internalType": "uint256",
-				"name": "mintQuantity",
-				"type": "uint256"
-			}
-		],
-		"name": "mint",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
 				"internalType": "address",
 				"name": "_funderWallet",
 				"type": "address"
@@ -58,37 +45,6 @@ const ABISyndicate = [
 		],
 		"name": "AddressInsufficientBalance",
 		"type": "error"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address[]",
-				"name": "userAddress",
-				"type": "address[]"
-			}
-		],
-		"name": "airdropNFT",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "approve",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"inputs": [
@@ -403,57 +359,6 @@ const ABISyndicate = [
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "mintQuantity",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "mintMode",
-				"type": "uint256"
-			},
-			{
-				"internalType": "uint256",
-				"name": "mintTimestamp",
-				"type": "uint256"
-			},
-			{
-				"internalType": "address",
-				"name": "buyer",
-				"type": "address"
-			},
-			{
-				"internalType": "bytes",
-				"name": "signature",
-				"type": "bytes"
-			},
-			{
-				"internalType": "bytes",
-				"name": "validateSignature",
-				"type": "bytes"
-			}
-		],
-		"name": "mintForGame",
-		"outputs": [],
-		"stateMutability": "payable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "mintQuantity",
-				"type": "uint256"
-			}
-		],
-		"name": "ownerMint",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [
 			{
@@ -473,269 +378,16 @@ const ABISyndicate = [
 		"type": "event"
 	},
 	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_marketplaceAddress",
-				"type": "address"
-			}
-		],
-		"name": "removeBlacklistMarketplace",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "renounceOwnership",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_newBaseURI",
-				"type": "string"
-			}
-		],
-		"name": "reveal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			}
-		],
-		"name": "safeTransferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
-			{
-				"internalType": "address",
-				"name": "to",
-				"type": "address"
-			},
-			{
-				"internalType": "uint256",
-				"name": "tokenId",
-				"type": "uint256"
-			},
-			{
-				"internalType": "bytes",
-				"name": "data",
-				"type": "bytes"
-			}
-		],
-		"name": "safeTransferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "operator",
-				"type": "address"
-			},
-			{
-				"internalType": "bool",
-				"name": "approved",
-				"type": "bool"
-			}
-		],
-		"name": "setApprovalForAll",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_newBaseExtension",
-				"type": "string"
-			}
-		],
-		"name": "setBaseExtension",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "_marketplaceAddress",
-				"type": "address"
-			}
-		],
-		"name": "setBlacklistMarketplace",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_contractURI",
-				"type": "string"
-			}
-		],
-		"name": "setContractURI",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_newCost",
-				"type": "uint256"
-			}
-		],
-		"name": "setCost",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint96",
-				"name": "feeNumerator",
-				"type": "uint96"
-			}
-		],
-		"name": "setDefaultRoyalty",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_easyModePercent",
-				"type": "uint256"
-			}
-		],
-		"name": "setEasyModePercent",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "newGameNFTCost",
-				"type": "uint256"
-			}
-		],
-		"name": "setGameNFTCost",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_hardModePercent",
-				"type": "uint256"
-			}
-		],
-		"name": "setHardModePercent",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "uint256",
-				"name": "_maxSupply",
-				"type": "uint256"
-			}
-		],
-		"name": "setMaxSupply",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "string",
-				"name": "_notRevealedURI",
-				"type": "string"
-			}
-		],
-		"name": "setNotRevealedURI",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "toggleGameMintSale",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "ToggleGameMintSale",
 		"type": "event"
 	},
 	{
-		"inputs": [],
-		"name": "toggleMintSale",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
 		"anonymous": false,
 		"inputs": [],
 		"name": "ToggleMintSale",
 		"type": "event"
-	},
-	{
-		"inputs": [],
-		"name": "toggleNonReveal",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
 	},
 	{
 		"anonymous": false,
@@ -763,12 +415,33 @@ const ABISyndicate = [
 		"type": "event"
 	},
 	{
+		"inputs": [],
+		"name": "DOMAIN_SEPARATOR",
+		"outputs": [
+			{
+				"internalType": "bytes32",
+				"name": "",
+				"type": "bytes32"
+			}
+		],
+		"stateMutability": "view",
+		"type": "function"
+	},
+	{
 		"inputs": [
 			{
-				"internalType": "address",
-				"name": "from",
-				"type": "address"
-			},
+				"internalType": "address[]",
+				"name": "userAddress",
+				"type": "address[]"
+			}
+		],
+		"name": "airdropNFT",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
 			{
 				"internalType": "address",
 				"name": "to",
@@ -780,20 +453,7 @@ const ABISyndicate = [
 				"type": "uint256"
 			}
 		],
-		"name": "transferFrom",
-		"outputs": [],
-		"stateMutability": "nonpayable",
-		"type": "function"
-	},
-	{
-		"inputs": [
-			{
-				"internalType": "address",
-				"name": "newOwner",
-				"type": "address"
-			}
-		],
-		"name": "transferOwnership",
+		"name": "approve",
 		"outputs": [],
 		"stateMutability": "nonpayable",
 		"type": "function"
@@ -845,7 +505,7 @@ const ABISyndicate = [
 	},
 	{
 		"inputs": [],
-		"name": "contractUri",
+		"name": "contractURI",
 		"outputs": [
 			{
 				"internalType": "string",
@@ -858,7 +518,7 @@ const ABISyndicate = [
 	},
 	{
 		"inputs": [],
-		"name": "contractURI",
+		"name": "contractUri",
 		"outputs": [
 			{
 				"internalType": "string",
@@ -877,19 +537,6 @@ const ABISyndicate = [
 				"internalType": "uint256",
 				"name": "",
 				"type": "uint256"
-			}
-		],
-		"stateMutability": "view",
-		"type": "function"
-	},
-	{
-		"inputs": [],
-		"name": "DOMAIN_SEPARATOR",
-		"outputs": [
-			{
-				"internalType": "bytes32",
-				"name": "",
-				"type": "bytes32"
 			}
 		],
 		"stateMutability": "view",
@@ -1154,6 +801,57 @@ const ABISyndicate = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "mintQuantity",
+				"type": "uint256"
+			}
+		],
+		"name": "mint",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "mintQuantity",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "mintMode",
+				"type": "uint256"
+			},
+			{
+				"internalType": "uint256",
+				"name": "mintTimestamp",
+				"type": "uint256"
+			},
+			{
+				"internalType": "address",
+				"name": "buyer",
+				"type": "address"
+			},
+			{
+				"internalType": "bytes",
+				"name": "signature",
+				"type": "bytes"
+			},
+			{
+				"internalType": "bytes",
+				"name": "validateSignature",
+				"type": "bytes"
+			}
+		],
+		"name": "mintForGame",
+		"outputs": [],
+		"stateMutability": "payable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "name",
 		"outputs": [
@@ -1196,6 +894,19 @@ const ABISyndicate = [
 		"inputs": [
 			{
 				"internalType": "uint256",
+				"name": "mintQuantity",
+				"type": "uint256"
+			}
+		],
+		"name": "ownerMint",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
 				"name": "tokenId",
 				"type": "uint256"
 			}
@@ -1209,6 +920,39 @@ const ABISyndicate = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_marketplaceAddress",
+				"type": "address"
+			}
+		],
+		"name": "removeBlacklistMarketplace",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "renounceOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_newBaseURI",
+				"type": "string"
+			}
+		],
+		"name": "reveal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1256,6 +1000,205 @@ const ABISyndicate = [
 	{
 		"inputs": [
 			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			},
+			{
+				"internalType": "bytes",
+				"name": "data",
+				"type": "bytes"
+			}
+		],
+		"name": "safeTransferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "operator",
+				"type": "address"
+			},
+			{
+				"internalType": "bool",
+				"name": "approved",
+				"type": "bool"
+			}
+		],
+		"name": "setApprovalForAll",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_newBaseExtension",
+				"type": "string"
+			}
+		],
+		"name": "setBaseExtension",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "_marketplaceAddress",
+				"type": "address"
+			}
+		],
+		"name": "setBlacklistMarketplace",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_contractURI",
+				"type": "string"
+			}
+		],
+		"name": "setContractURI",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_newCost",
+				"type": "uint256"
+			}
+		],
+		"name": "setCost",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint96",
+				"name": "feeNumerator",
+				"type": "uint96"
+			}
+		],
+		"name": "setDefaultRoyalty",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_easyModePercent",
+				"type": "uint256"
+			}
+		],
+		"name": "setEasyModePercent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "newGameNFTCost",
+				"type": "uint256"
+			}
+		],
+		"name": "setGameNFTCost",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_hardModePercent",
+				"type": "uint256"
+			}
+		],
+		"name": "setHardModePercent",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "uint256",
+				"name": "_maxSupply",
+				"type": "uint256"
+			}
+		],
+		"name": "setMaxSupply",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "string",
+				"name": "_notRevealedURI",
+				"type": "string"
+			}
+		],
+		"name": "setNotRevealedURI",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
 				"internalType": "bytes4",
 				"name": "interfaceId",
 				"type": "bytes4"
@@ -1283,6 +1226,27 @@ const ABISyndicate = [
 			}
 		],
 		"stateMutability": "view",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "toggleGameMintSale",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "toggleMintSale",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [],
+		"name": "toggleNonReveal",
+		"outputs": [],
+		"stateMutability": "nonpayable",
 		"type": "function"
 	},
 	{
@@ -1374,6 +1338,42 @@ const ABISyndicate = [
 		"type": "function"
 	},
 	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "from",
+				"type": "address"
+			},
+			{
+				"internalType": "address",
+				"name": "to",
+				"type": "address"
+			},
+			{
+				"internalType": "uint256",
+				"name": "tokenId",
+				"type": "uint256"
+			}
+		],
+		"name": "transferFrom",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
+		"inputs": [
+			{
+				"internalType": "address",
+				"name": "newOwner",
+				"type": "address"
+			}
+		],
+		"name": "transferOwnership",
+		"outputs": [],
+		"stateMutability": "nonpayable",
+		"type": "function"
+	},
+	{
 		"inputs": [],
 		"name": "validateWallet",
 		"outputs": [
@@ -1456,6 +1456,6 @@ const ABISyndicate = [
 	}
 ];
 
-const contractAddressSyndicate = "0x3B686118bF4272E132Bb5779747f51721e6E5afe";
+const contractAddressSyndicate = "0x494702c6317F049dFEF9235D29D5A5FB62FD271a";
 
 module.exports = { ABISyndicate, contractAddressSyndicate };
