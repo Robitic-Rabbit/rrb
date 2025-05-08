@@ -7,8 +7,8 @@ const vault = require('node-vault')({
 async function getSecrets() {
   try {
     // Read secrets from Vault
-    //const result = await vault.read('secret/data/rrs-be');
-    const result = await vault.read('rrs-be/data/aws/dev/credentials');
+    const result = await vault.read('secret/data/rrs-be');
+    //const result = await vault.read('rrs-be/data/aws/dev/credentials');
     
     // Set environment variables from secrets
     const secrets = result.data.data;
