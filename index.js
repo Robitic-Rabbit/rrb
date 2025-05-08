@@ -21,6 +21,10 @@ const { createCanvas, loadImage } = require('canvas');
 //const { imageMappingsFile } = require('./imageMappings.json');
 const imageMappings = require('./imageMappings.json');
 
+app.options("/update-nft", (req, res) => {
+    // CORS preflight response
+    res.sendStatus(200);
+});
 
 // Set the limit to 50MB for JSON payloads
 app.use(bodyParser.json({ limit: '50mb' }));
@@ -177,11 +181,12 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/', 'https://frontend-check-ten.vercel.app/', 'https://roboticrabbitsyndicate.io/'],
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net', 'https://adminrabbit.vercel.app', 'https://frontend-check-ten.vercel.app', 'https://roboticrabbitsyndicate.io'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
     exposedHeaders: ["Content-Type"],
+    credentials: true
 };
 
 // Body parsing middleware
