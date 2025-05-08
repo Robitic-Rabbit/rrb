@@ -168,24 +168,21 @@ const pinata = new pinataSDK({ pinataJWTKey: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVC
 app.use(helmet());
 app.use(upload());
 
-// CORS configuration
-const corsOptions = {
-    origin: (origin, callback) => {
-        callback(null, true); // Allow all origins dynamically
-    },
-    credentials: true,
-    methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['Content-Type'],
-    optionsSuccessStatus: 200
+app.use(cors());
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
+var corsOptions = {
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/', 'https://frontend-check-ten.vercel.app/'],
+    optionsSuccessStatus: 200,
+    methods: "GET,POST",
+    allowedHeaders: ["Content-Type"],
+    exposedHeaders: ["Content-Type"],
 };
-
-    
-// Apply CORS middleware globally
-app.use(cors(corsOptions));
-
-// Handle preflight requests
-app.options('*', cors(corsOptions));
 
 // Body parsing middleware
 app.use(bodyParser.urlencoded({ extended: true }));
