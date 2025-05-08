@@ -170,17 +170,13 @@ app.use(upload());
 
 // CORS configuration
 const corsOptions = {
-    origin: [
-        'https://d2mlmfod4h1sc4.cloudfront.net',
-        'https://adminrabbit.vercel.app',
-        'https://frontend-check-ten.vercel.app'
-    ],
-    optionsSuccessStatus: 200,
+    origin: '*', // Allows all origins
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
-    exposedHeaders: ['Content-Type']
+    exposedHeaders: ['Content-Type'],
+    optionsSuccessStatus: 200
 };
-
+    
 // Apply CORS middleware globally
 app.use(cors(corsOptions));
 
