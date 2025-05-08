@@ -177,7 +177,7 @@ app.use((req, res, next) => {
 });
 
 var corsOptions = {
-    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/', 'https://frontend-check-ten.vercel.app/'],
+    origin: ['https://d2mlmfod4h1sc4.cloudfront.net/', 'https://adminrabbit.vercel.app/', 'https://frontend-check-ten.vercel.app/', 'https://roboticrabbitsyndicate.io/'],
     optionsSuccessStatus: 200,
     methods: "GET,POST",
     allowedHeaders: ["Content-Type"],
