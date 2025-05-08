@@ -170,12 +170,16 @@ app.use(upload());
 
 // CORS configuration
 const corsOptions = {
-    origin: '*', // Allows all origins
+    origin: (origin, callback) => {
+        callback(null, true); // Allow all origins dynamically
+    },
+    credentials: true,
     methods: ['GET', 'POST', 'OPTIONS', 'PUT', 'PATCH', 'DELETE'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     exposedHeaders: ['Content-Type'],
     optionsSuccessStatus: 200
 };
+
     
 // Apply CORS middleware globally
 app.use(cors(corsOptions));
