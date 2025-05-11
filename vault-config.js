@@ -1,7 +1,7 @@
 const vault = require('node-vault')({
   apiVersion: 'v1',
     endpoint: 'https://vault.roboticrabbitsyndicate.io',
-    token: 'dev-root-token'
+    token: 'hvs.1qkztxOxwnc5b1KKrDAmNtGf'
 });
 
 async function getSecrets() {
